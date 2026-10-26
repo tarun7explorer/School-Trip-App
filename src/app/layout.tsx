@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { getPublicSiteUrl, isVercelPreview } from "@/lib/site-url";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = getPublicSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     description: "Explore educational trip themes for schools in Hyderabad, Jaipur and Delhi.",
     images: ["/images/hero-education.png"],
   },
-  robots: { index: true, follow: true },
+  robots: isVercelPreview() ? { index: false, follow: false } : { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

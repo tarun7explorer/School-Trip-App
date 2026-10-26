@@ -1,101 +1,218 @@
 # MB Learning School Trip Interest Platform
 
-A Next.js application for MB Learning's school trip discovery and interest platform. It provides the public homepage, illustrative trip themes and details for Hyderabad, Jaipur and Delhi, and a teacher interest form that writes enquiries to Supabase. Trip details are intentionally labeled as illustrative; dates, venues, confirmed itineraries, prices and partner access are not represented as facts.
+A responsive Next.js application for teachers to explore three illustrative educational trip themes and submit a school's interest. Approved MB Learning administrators can sign in and review the saved enquiries in a protected dashboard.
 
-## Requirements
+Trip descriptions and imagery are illustrative. The application does not advertise confirmed itineraries, dates, prices, venue access, university partnerships, or safety guarantees.
 
-- Node.js 20.9 or newer
-- npm
-- A Supabase project for the database work in later phases (the public pages run without Supabase credentials)
+## Project status
 
-## Local setup
+- GitHub repository: [tarun7explorer/School-Trip-App](https://github.com/tarun7explorer/School-Trip-App)
+- Production deployment: **not deployed or verified**; no deployed URL is available.
+- Supabase production schema and RLS: **must be applied and verified manually** in the intended project before live collection or administrator access.
+- Screenshots: no reviewed screenshots are checked in. Future screenshots belong in [`docs/screenshots/`](docs/screenshots/).
+
+## Implemented features
+
+### Public site
+
+- Responsive homepage with destination discovery, enquiry-process information, educational context, and working internal navigation.
+- Destination pages for Hyderabad STEM & Innovation, Jaipur Heritage & Culture, and Delhi History, Leadership & Institutions.
+- Trip-specific canonical, Open Graph, and Twitter metadata; sitemap includes only the homepage and destination pages.
+- Accessible teacher interest form with React Hook Form and Zod validation, trip preselection, pending/error/success states, honeypot, and server-side validation.
+- Server-side Supabase persistence. Confirmation email is optional and cannot reverse a confirmed database insert.
+
+### Administrator workflow
+
+- Supabase email/password sign-in with server-managed SSR cookies.
+- Explicit operator-managed `admin_users` allowlist. Sign-in by itself does not grant administrator access.
+- Protected dashboard with all-time totals, per-destination totals, literal search, destination filters, newest-first sorting, and 20-row server-side pagination.
+- Protected read-only enquiries API. Each private data-access path checks administrator authorization, and RLS remains enabled in PostgreSQL.
+- Logout clears the local session cookies. Admin pages and API responses use `private, no-store` caching headers.
+
+## Technology and architecture
+
+- Next.js 15 App Router and React Server Components by default.
+- TypeScript with strict checking.
+- Tailwind CSS v4 is loaded; the visual system is primarily implemented in `src/app/globals.css`.
+- React Hook Form and Zod for the public and admin forms.
+- Supabase PostgreSQL, Auth, RLS, and `@supabase/ssr`.
+- Lucide icons; reusable application UI primitives (no shadcn/ui or Radix dependency is currently installed).
+- Playwright for browser and integration test coverage.
+- Local destination images served through `next/image` and Next's image optimization.
+
+```text
+src/
+  app/
+    (public)/                 Public homepage, interest page, trip detail routes and layout
+    admin/                    Admin login and protected dashboard routes
+    api/admin/enquiries/       Protected read-only enquiries API
+    globals.css                Public and admin visual system
+    robots.ts, sitemap.ts      Crawler rules and public sitemap
+  components/
+    admin/                     Login and logout controls
+    forms/                     Teacher interest form
+    home/                      Homepage sections
+    layout/                    Public navigation and footer
+    trips/                     Destination cards and detail content
+    ui/                        Reusable visual primitives
+  data/trips.ts                Centralized illustrative destination catalogue
+  lib/
+    actions/                   Server actions for enquiries and admin auth
+    admin/                     Server-only authorization and dashboard queries
+    email/, interest/          Optional email and submission service
+    security/                  Rate-limit and request-address helpers
+    supabase/                  Browser-safe, SSR, and server-only clients
+    validations/               Zod schemas
+  types/                       Database and product types
+public/images/                 Local illustrative PNG assets
+supabase/
+  migrations/                  Schema, constraints, RLS, and dashboard RPCs
+  seed.sql                     Three public trip catalogue rows
+e2e/                           Playwright tests and guarded local DB fixtures
+DEPLOYMENT.md                  Detailed Vercel and Supabase deployment guide
+```
+
+## Prerequisites
+
+- Node.js 20.9 or newer and npm.
+- Chromium for Playwright browser tests.
+- A Supabase project for actual enquiry persistence and administrator access.
+
+The public pages can run without live Supabase credentials. Real interest submissions require the migrations, seed rows, and server-side service-role key. Admin access additionally requires email/password Auth and an operator-provisioned allowlist row.
+
+## Local installation
 
 ```bash
-npm install
+npm ci
+```
+
+Copy the example environment file, then edit `.env.local` with local development values. On PowerShell:
+
+```powershell
 Copy-Item .env.example .env.local
 npm run dev
 ```
 
-Open <http://localhost:3000>. `.env.local` may be left with the safe placeholders while developing the public shell. Configure real Supabase values only in your local ignored `.env.local` or deployment secret settings.
+On macOS/Linux:
+
+```bash
+cp .env.example .env.local
+npm run dev
+```
+
+Open <http://localhost:3000>. Public routes should render with the example placeholders, but real persistence and authentication will not work until valid values and the Supabase setup below are applied. Never commit `.env.local`.
+
+For a local production build, provide an HTTPS origin (a reserved example domain is sufficient for build-time metadata validation) or set the actual deployment origin:
+
+```powershell
+$env:NEXT_PUBLIC_SITE_URL = "https://school-trips.example"
+npm run build
+```
 
 ## Environment variables
 
-| Variable | Use | Exposure |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical site base URL for metadata, sitemap and robots | Public |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | Public |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Browser-safe Supabase publishable key, protected by RLS | Public |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key used by the interest submission action to insert after validation | **Secret** |
-| `UPSTASH_REDIS_REST_URL` | Optional shared rate-limit store endpoint | Server only |
-| `UPSTASH_REDIS_REST_TOKEN` | Optional Upstash credential for the distributed limiter | Server only |
-| `RESEND_API_KEY` | Optional confirmation email provider key | Server only |
-| `RESEND_FROM_EMAIL` | Optional verified sender configured in Resend | Server only |
+`.env.example` contains variable names and safe placeholders only. In Vercel, set Production and Preview values separately; do not share a Production service-role key with Preview.
 
-Never put service-role keys, database passwords, or private API credentials in a `NEXT_PUBLIC_` variable. The service-role key is read only by `src/lib/supabase/admin.ts`, which is guarded by `server-only`; it is never sent to browser code. `.env.local` and other environment files are ignored by Git; `.env.example` contains placeholders only.
+| Variable | Required for | Client visible? | Notes |
+| --- | --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Production canonical metadata, sitemap, and robots | Yes | Production requires a valid HTTPS origin. Preview may omit it and uses Vercel's per-deployment URL. Local development defaults to `http://localhost:3000`. |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase Auth and data access | Yes | Project URL for the matching environment. |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase Auth and browser client | Yes | Publishable key; RLS is the data security boundary. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-side public enquiry insert | **No** | Privileged secret; only referenced by the `server-only` Supabase admin client. Never use a `NEXT_PUBLIC_` prefix. |
+| `UPSTASH_REDIS_REST_URL` | Optional shared rate limiting | No | Configure together with the token. A partially configured or unavailable Upstash service fails closed. |
+| `UPSTASH_REDIS_REST_TOKEN` | Optional shared rate limiting | **No** | Secret credential for Upstash. |
+| `RESEND_API_KEY` | Optional confirmation email | **No** | Omit to disable confirmation mail. |
+| `RESEND_FROM_EMAIL` | Optional confirmation email | No | Sender address verified with Resend. |
 
-Supabase URL, publishable key and server-only service-role key are required for real submissions. Without the optional Upstash integration, no distributed rate limiter is active; the app does not substitute an in-memory limiter. When both Upstash variables are configured, the server permits five submissions per client-address key per 15-minute window and fails closed if Redis is unavailable. A honeypot is checked on every submission. Turnstile is not enabled or assumed to have passed. Without both Resend variables, no confirmation email is attempted; a mail failure after a successful insert does not change the submission result.
+Vercel supplies `VERCEL_ENV` and `VERCEL_URL`; these are used to identify Preview and derive a Preview origin when needed. No Turnstile secret/site-key variables are used because CAPTCHA verification is not implemented.
 
-The student-count limit is 1–300 per enquiry. Phone numbers are stored as text so leading zeros, country codes and formatting are retained.
+The repository `.gitignore` excludes `.env` and `.env.*`, with `.env.example` as the only exception. The Supabase browser client uses only the URL and publishable key; service-role and email credentials are server-only. Do not paste secrets into issues, logs, analytics, or source files.
 
-## Scripts
+## Supabase project setup
 
-```bash
-npm run dev        # local development server
-npm run build      # optimized production build
-npm run start      # serve the production build
-npm run lint       # ESLint
-npm run typecheck  # strict TypeScript check
-npm run test:e2e   # Playwright browser tests
-```
+Use separate Supabase projects for Production and Preview/Staging. Do not use Production data or credentials for Preview testing.
 
-Administrator sign-in uses Supabase email/password authentication with server-managed SSR cookies. The `admin_users` table is an explicit allowlist; ordinary authenticated accounts have no access to private enquiries. Configure Supabase Auth's Email provider and disable public sign-ups (invite-only provisioning). The optional Upstash integration also limits admin login attempts; without it, Supabase Auth's own rate limits apply, and the app does not claim to provide a distributed limiter.
-
-Playwright uses Chromium and starts the local development server automatically. Install its browser once with `npx playwright install chromium` if the browser is not present.
-
-## Architecture
-
-- `src/app/`: App Router pages, layout, metadata, sitemap and robots rules.
-- `src/components/layout/`, `trips/`, `ui/`: reusable page chrome and accessible UI primitives.
-- `src/data/trips.ts`: typed illustrative catalogue for the three destinations.
-- `src/lib/validations/`: shared Zod input schema, ready for client and server form validation.
-- `src/lib/actions/interest-actions.ts`: server action validates, rate-checks and persists interest submissions.
-- `src/components/forms/interest-form.tsx`: accessible React Hook Form with inline Zod feedback and post-insert success state.
-- `src/lib/security/` and `src/lib/email/`: optional distributed rate limiter and server-only confirmation email integration.
-- `src/lib/supabase/client.ts`: browser-safe Supabase client using only the publishable key.
-- `src/lib/supabase/server.ts`: server-only Supabase client with cookie session support.
-- `src/types/`: trip, interest and database types.
-- `supabase/migrations/`: PostgreSQL schema, constraints and Row Level Security policies.
-- `e2e/`: Playwright smoke coverage.
-
-## Supabase setup
-
-1. Create a Supabase project and add its URL and publishable key to `.env.local`.
-2. Apply the migrations and catalogue seed with the Supabase CLI:
+1. Create the intended project and copy its project reference, URL, publishable key, and server-side service-role key into that environment's secret manager.
+2. Install and authenticate the Supabase CLI if using the CLI. Confirm the target project reference before applying anything:
 
    ```bash
-   npx supabase link --project-ref YOUR_PROJECT_REF
+   npx supabase login
+   npx supabase link --project-ref YOUR_INTENDED_PROJECT_REF
+   npx supabase migration list
    npx supabase db push
+   ```
+
+   The migration files are applied in order. Alternatively, review and run each SQL migration in the Supabase SQL Editor. Do not apply them to an unintended project.
+3. Seed the destination catalogue:
+
+   ```bash
    npx supabase db query --file supabase/seed.sql
    ```
 
-   Alternatively, run the migration and `supabase/seed.sql` in the Supabase SQL Editor.
-3. The `trip_interests` table has RLS enabled. Anonymous users cannot read or write enquiry rows. Authenticated reads are restricted to users provisioned in `admin_users`. The server action uses a server-only service-role client for the single validated insert and supplies neither `id` nor `created_at`, which remain database-generated. Admin enquiry reads use the signed-in SSR client and are independently checked by server-side allowlist authorization.
-4. Provision the first administrator through a trusted operator account: create or invite the person in **Supabase Dashboard → Authentication → Users**, require a strong unique password (or use the invite flow), then add that exact Auth user to the allowlist in the SQL Editor:
+   Or run `supabase/seed.sql` in that project's SQL Editor. Verify all three trip slugs exist before trying registration.
+4. In Supabase Auth, enable Email/password sign-in and disable public sign-ups. Set the Site URL and allowed redirect URLs for that environment.
+5. Verify RLS and table privileges for `trip_interests` and `admin_users`, and the invoker-security configuration for the dashboard RPCs. Anonymous users must not read enquiries; ordinary authenticated users must not read them or modify the admin allowlist.
 
-   ```sql
-   insert into public.admin_users (user_id)
-   select id from auth.users
-   where email = lower('replace-with-approved-admin-email@example.com')
-   on conflict (user_id) do nothing;
-   ```
+The migrations define the `trips`, `admin_users`, and `trip_interests` tables, validation constraints and indexes; they enable RLS, restrict enquiry table writes, and add protected summary/count/page RPCs. The public server action inserts using the server-only service-role client. Admin reads use the authenticated SSR client and are independently authorized by the server helper and RLS.
 
-   Verify that one row was inserted. Do not expose the SQL Editor or service-role credentials to administrators using the app. To revoke an administrator, delete their row from `public.admin_users`; deleting their Auth user also cascades to the row. Only trusted operators may change membership. Keep email/password sign-in enabled and public sign-ups disabled in Supabase Auth settings.
-5. In production, configure Upstash credentials to enable the shared login and enquiry rate limits. Configure Resend only if confirmation emails are wanted; verify the sender address with Resend first.
+## Secure administrator provisioning
 
-## Deployment
+An operator must create or invite an administrator in **Supabase Dashboard → Authentication → Users**, then explicitly insert that Auth user's UUID into `public.admin_users` from the SQL Editor:
 
-Deploy to Vercel as a standard Next.js application. Set `NEXT_PUBLIC_SITE_URL` to the canonical HTTPS origin and configure the Supabase URL, publishable key and server-only service-role key in the deployment environment. Apply all SQL migrations before accepting enquiries or granting admin access. The admin session cookie is HttpOnly, SameSite=Lax, and Secure in production; admin pages and private API responses are marked no-store. Review Supabase RLS and account provisioning before collecting teacher contact information.
+```sql
+insert into public.admin_users (user_id)
+select id from auth.users
+where email = lower('replace-with-approved-admin-email@example.com')
+on conflict (user_id) do nothing;
+```
 
-## Current scope and next steps
+Replace the example with the approved identity, verify the inserted user ID, and do not expose the SQL Editor or service-role key to dashboard users. Remove the allowlist row to revoke admin access. Authenticated accounts without a row remain non-admins. Do not enable public account registration for this prototype.
 
-The interest form is persisted through a server action, but requires a Supabase project, applied migrations and seeded trip rows to accept real submissions. Admin access requires the migrations, configured Supabase email/password auth and an explicitly provisioned allowlist row. CAPTCHA, analytics and confirmed programme content are not implemented. A distributed rate limit and confirmation emails are optional and require their documented providers. The form privacy notice explains that enquiry data is stored for authorized MB Learning administrators to review and respond.
+## Development, quality checks, and tests
+
+```bash
+npm run dev        # local Next.js development server
+npm run lint       # ESLint
+npm run typecheck  # strict TypeScript check
+npm run build      # optimized Next.js production build
+npm run start      # serve the production build locally
+npm run test:e2e   # Playwright suite
+```
+
+Install Chromium once:
+
+```bash
+npx playwright install chromium
+```
+
+By default, Playwright starts its own development server on port 3100 with test-only Supabase settings and an empty service-role key. The tests cover public routes, form validation/error handling, navigation, metadata, responsive checks, and anonymous/private API behavior. Authenticated admin/non-admin tests require configured test users. The database-fixture tests require a **local-only** Supabase URL and explicit fixture opt-in; they reject non-local project hosts.
+
+For the fixture-enabled run, use a throwaway local Supabase instance with migrations and seed rows applied. Set `PLAYWRIGHT_USE_CONFIGURED_SUPABASE=1`, local `NEXT_PUBLIC_SUPABASE_URL`, local publishable key, `SUPABASE_SERVICE_ROLE_KEY`, `E2E_ALLOW_DATABASE_FIXTURES=1`, and the `E2E_AUTH_ADMIN_EMAIL` / `E2E_AUTH_ADMIN_PASSWORD` and `E2E_AUTH_NON_ADMIN_EMAIL` / `E2E_AUTH_NON_ADMIN_PASSWORD` variables. The configured non-admin account must not be in `admin_users`. Never set the fixture flag with a Production or remote Supabase URL. When enabled, Playwright passes the local service-role key only to its isolated Next.js test server and test process, never to browser code.
+
+No automated test run is a substitute for verifying the applied migrations and RLS in the intended Supabase project. The repository's test suite does not use production enquiry data.
+
+## Vercel deployment
+
+Follow [`DEPLOYMENT.md`](DEPLOYMENT.md) for repository import, environment scopes, Supabase preparation, caching, smoke tests, and failure recovery.
+
+In summary: import this GitHub repository into Vercel, use the repository root and Next.js defaults, set `main` as the Production branch, configure the Production HTTPS `NEXT_PUBLIC_SITE_URL` and matching Supabase environment values, apply migrations/seed/admin provisioning to the intended Supabase project, then deploy from Vercel. Configure Preview with an isolated Supabase project and separate secrets. Preview builds default to the Vercel deployment URL and are marked noindex/disallowed. This repository has **not** been deployed; no production URL is known or claimed.
+
+## Security controls and known limitations
+
+- Admin access requires a verified Supabase claim and an explicit `admin_users` membership check in the layout, data-access helper, and API route. Middleware session refresh/redirects are convenience controls, not the sole authorization boundary.
+- `trip_interests` is private under RLS; anonymous reads and writes are revoked. The allowlist has no app-user write policy. Dashboard RPCs use `SECURITY INVOKER` and fixed, validated parameters.
+- `SUPABASE_SERVICE_ROLE_KEY` is server-only and used for validated interest inserts only. Browser code gets only the publishable Supabase key.
+- Admin sessions use HttpOnly, SameSite=Lax cookies, Secure in production, and logout clears the session cookie chunks. Admin pages/API responses are dynamic and `private, no-store`.
+- Inputs are validated on the server and constrained in PostgreSQL. Search uses a parameterized RPC with literal substring matching; results are server-paginated.
+- No contact details are sent to analytics, and this application does not include analytics. Contact details are used to review/respond to the enquiry; optional email acknowledgement uses the submitted address.
+- Upstash rate limiting is optional. Without it, no distributed application limiter is active. The app trusts `x-real-ip`; if absent, clients share the `unknown` address bucket. Configure a trusted deployment proxy. Supabase Auth's own rate limits remain separate.
+- A honeypot is present. Turnstile/CAPTCHA, idempotency keys, enquiry editing/deletion/status changes, CSV export, admin email alerts, and verified itinerary content are not implemented.
+- Confirmation email via Resend is optional. A failed email does not undo a saved enquiry. No production migration application, live Supabase authorization test, or Vercel deployment is claimed in this repository documentation.
+
+## Screenshots
+
+No reviewed screenshots are currently checked in. The documented location is `docs/screenshots/`; only use non-sensitive pages or synthetic local test data. Playwright artifacts under `test-results/` are generated/ignored and are not committed.
+
+## AI-tool disclosure
+
+Codex assisted with project implementation, security review, regression-test authoring, deployment preparation, and this documentation. The repository contents, environment handling, migrations, and test configuration were inspected during this work. Production Supabase settings, migrations, Vercel environment values, live routes, and deployment must still be reviewed and verified by the project owner; no live deployment or production database operation was performed.
