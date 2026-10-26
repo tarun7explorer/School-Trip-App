@@ -44,10 +44,9 @@ for (const destination of destinations) {
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", new RegExp(`/images/${destination.slug}\\.png`));
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
 
-    await page.getByRole("link", { name: "Register Interest" }).first().click();
+    await page.locator(".trip-detail-intro").getByRole("link", { name: "Register Interest" }).click();
     await expect(page).toHaveURL(new RegExp(`/interest\\?trip=${destination.slug}`));
-    await expect(page.getByText("SELECTED DESTINATION")).toBeVisible();
-    await expect(page.getByRole("heading", { name: destination.city, level: 2 })).toBeVisible();
+    await expect(page.getByLabel("Selected destination")).toHaveValue(destination.slug);
   });
 }
 
@@ -61,7 +60,7 @@ test("trip details remain readable without horizontal overflow on mobile", async
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/trips/delhi-discovery");
   await expect(page.getByRole("heading", { name: "History, Leadership & Institutions", level: 1 })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Register Interest" }).first()).toBeVisible();
+  await expect(page.locator(".trip-detail-intro").getByRole("link", { name: "Register Interest" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Learning objectives" })).toBeVisible();
   const dimensions = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, page: document.documentElement.scrollWidth }));
   expect(dimensions.page).toBeLessThanOrEqual(dimensions.viewport);

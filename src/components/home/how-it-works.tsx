@@ -11,7 +11,7 @@ const steps = [
     number: "02",
     icon: ClipboardList,
     title: "Share your school's interest",
-    description: "When registration is available, a teacher can share school and contact details along with an approximate student count.",
+    description: "Share school and contact details along with an approximate number of interested students.",
   },
   {
     number: "03",
@@ -38,7 +38,6 @@ export function HowItWorks() {
           </article>
         ))}
       </div>
-      <p className="phase-note">Interest registration is not enabled yet. This phase introduces the destinations and public site experience.</p>
       <a href="#trips" className="text-link how-link">Explore the trip themes <ArrowRight size={16} aria-hidden="true" /></a>
     </section>
   );

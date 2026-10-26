@@ -23,14 +23,12 @@ export type Database = {
           created_at: string;
         };
         Insert: {
-          id?: string;
           teacher_name: string;
           school_name: string;
           email: string;
           phone: string;
           trip_slug: TripSlug;
           student_count: number;
-          created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["trip_interests"]["Insert"]>;
         Relationships: [];

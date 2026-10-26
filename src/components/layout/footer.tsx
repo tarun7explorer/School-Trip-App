@@ -20,7 +20,7 @@ export function Footer() {
         </div>
         <div className="footer-links-group footer-next">
           <span className="footer-heading">GET STARTED</span>
-          <Link href="/#register-interest">For teachers <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          <Link href="/interest">Register school interest <ArrowUpRight size={14} aria-hidden="true" /></Link>
           <Link href="/#trips">Explore destinations <ArrowUpRight size={14} aria-hidden="true" /></Link>
         </div>
       </div>

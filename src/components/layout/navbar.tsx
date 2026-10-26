@@ -15,7 +15,7 @@ export function Navbar() {
           <Link href="/#how-it-works">How It Works</Link>
           <Link href="/#about">About</Link>
         </nav>
-        <Link className="button button-primary nav-cta" href="/#register-interest">
+        <Link className="button button-primary nav-cta" href="/interest">
           Register Interest <ArrowRight size={16} aria-hidden="true" />
         </Link>
         <MobileNav />

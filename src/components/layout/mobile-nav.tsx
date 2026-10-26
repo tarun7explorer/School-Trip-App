@@ -69,7 +69,7 @@ export function MobileNav() {
               {links.map((link) => (
                 <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>{link.label}</Link>
               ))}
-              <Link className="mobile-register" href="/#register-interest" onClick={() => setOpen(false)}>
+              <Link className="mobile-register" href="/interest" onClick={() => setOpen(false)}>
                 Register Interest <ArrowRight size={17} aria-hidden="true" />
               </Link>
             </nav>

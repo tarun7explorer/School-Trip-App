@@ -6,6 +6,10 @@ export const tripSlugs = [
 
 export type TripSlug = (typeof tripSlugs)[number];
 
+export function isTripSlug(value: unknown): value is TripSlug {
+  return typeof value === "string" && tripSlugs.some((slug) => slug === value);
+}
+
 export type Trip = {
   slug: TripSlug;
   city: string;
