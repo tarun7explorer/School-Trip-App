@@ -17,6 +17,10 @@ export function MobileNav() {
 
   useEffect(() => {
     if (!open) return;
+    const inertSiblings = Array.from(document.body.children)
+      .filter((element): element is HTMLElement => element instanceof HTMLElement && !element.contains(panelRef.current));
+    const previousInertStates = inertSiblings.map((element) => element.inert);
+    inertSiblings.forEach((element) => { element.inert = true; });
     const firstLink = panelRef.current?.querySelector<HTMLAnchorElement>("a");
     firstLink?.focus();
 
@@ -40,7 +44,10 @@ export function MobileNav() {
     }
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      inertSiblings.forEach((element, index) => { element.inert = previousInertStates[index]; });
+    };
   }, [open]);
 
   function closeMenu() {

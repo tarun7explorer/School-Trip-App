@@ -6,7 +6,7 @@ import type { Trip } from "@/types/trip";
 
 export function TripDetail({ trip }: { trip: Trip }) {
   return (
-    <main className="trip-detail-page" id="main">
+    <main className="trip-detail-page" id="main" tabIndex={-1}>
       <div className="trip-detail-wrap">
         <nav className="breadcrumb-nav" aria-label="Breadcrumb">
           <ol>

@@ -14,6 +14,15 @@ export const metadata: Metadata = {
     title: "School Trips for Curious Classrooms | MB Learning",
     description: "Explore educational trip themes for schools in Hyderabad, Jaipur and Delhi.",
     type: "website",
+    siteName: "MB Learning",
+    locale: "en_IN",
+    images: [{ url: "/images/hero-education.png", width: 1536, height: 1024, alt: "Illustrative image of students exploring together" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "School Trips for Curious Classrooms | MB Learning",
+    description: "Explore educational trip themes for schools in Hyderabad, Jaipur and Delhi.",
+    images: ["/images/hero-education.png"],
   },
   robots: { index: true, follow: true },
 };

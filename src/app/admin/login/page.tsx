@@ -5,6 +5,7 @@ import { getAdminAccess } from "@/lib/admin/auth";
 
 export const metadata: Metadata = {
   title: "Administrator Sign In",
+  description: "Secure administrator sign in for the MB Learning school trip interest platform.",
   robots: { index: false, follow: false },
 };
 

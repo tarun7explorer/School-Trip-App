@@ -27,7 +27,7 @@ export function AdminLoginForm() {
   }
 
   return (
-    <main id="main" className="admin-login-page">
+    <main id="main" className="admin-login-page" tabIndex={-1}>
       <section className="admin-login-card" aria-labelledby="admin-login-title">
         <div className="admin-login-mark"><LockKeyhole size={22} aria-hidden="true" /></div>
         <p className="eyebrow">MB LEARNING · ADMINISTRATION</p>

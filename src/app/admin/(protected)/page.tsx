@@ -27,7 +27,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
 
   if (!filters) {
     return (
-      <main id="main" className="admin-dashboard">
+      <main id="main" className="admin-dashboard" tabIndex={-1}>
         <section className="admin-state-card" role="alert">
           <h1>Those filters aren’t valid</h1>
           <p>Reset the destination, search or page number and try again.</p>
@@ -40,7 +40,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
   const result = await getAdminDashboardData(filters);
   if (!result.ok) {
     return (
-      <main id="main" className="admin-dashboard">
+      <main id="main" className="admin-dashboard" tabIndex={-1}>
         <section className="admin-state-card" role="alert">
           <span className="admin-state-icon" aria-hidden="true"><RotateCcw size={21} /></span>
           <h1>Enquiries could not be loaded</h1>
@@ -58,7 +58,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
   const rangeEnd = Math.min(filters.page * data.pageSize, data.filteredCount);
 
   return (
-    <main id="main" className="admin-dashboard">
+    <main id="main" className="admin-dashboard" tabIndex={-1}>
       <header className="admin-dashboard-heading">
         <div>
           <p className="eyebrow">ADMINISTRATION <span aria-hidden="true">/</span> OVERVIEW</p>

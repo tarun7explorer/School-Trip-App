@@ -20,7 +20,7 @@ export function HeroSection() {
           <Image
             className="hero-photo"
             src="/images/hero-education.png"
-            alt="School students walking together through a leafy garden on an educational outing."
+            alt="Illustrative image of school students exploring a garden path during an educational outing."
             fill
             priority
             sizes="(max-width: 760px) 100vw, 52vw"

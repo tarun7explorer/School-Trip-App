@@ -5,7 +5,7 @@ import { MobileNav } from "@/components/layout/mobile-nav";
 export function Navbar() {
   return (
     <header className="site-header">
-      <nav className="nav-shell" aria-label="Main navigation">
+      <div className="nav-shell">
         <Link className="brand" href="/" aria-label="MB Learning home">
           <span className="brand-mark"><BookOpenCheck size={20} aria-hidden="true" /></span>
           <span>MB <b>LEARNING</b></span>
@@ -19,7 +19,7 @@ export function Navbar() {
           Register Interest <ArrowRight size={16} aria-hidden="true" />
         </Link>
         <MobileNav />
-      </nav>
+      </div>
     </header>
   );
 }
