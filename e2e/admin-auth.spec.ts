@@ -16,7 +16,7 @@ test("anonymous visitors are redirected from the dashboard and cannot read the p
   expect(response.headers()["cache-control"]).toContain("no-store");
 });
 
-test("a malformed or expired session cookie cannot authorize dashboard access", async ({ page, context }) => {
+test("a malformed session cookie cannot authorize dashboard access", async ({ page, context }) => {
   await context.addCookies([{ name: "mb-learning-auth", value: "invalid-session", domain: "127.0.0.1", path: "/", httpOnly: true, secure: false, sameSite: "Lax" }]);
   await page.goto("/admin");
   await expect(page).toHaveURL(/\/admin\/login$/);
