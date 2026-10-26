@@ -1,0 +1,150 @@
+
+mb-learning-school-trips/
+│
+├── public/
+│   ├── images/
+│   │   ├── hero-education.jpg
+│   │   ├── hyderabad-stem.jpg
+│   │   ├── jaipur-heritage.jpg
+│   │   ├── delhi-institutions.jpg
+│   │   └── gallery/
+│   ├── logo.svg
+│   └── favicon.ico
+│
+├── e2e/
+│   ├── homepage.spec.ts
+│   ├── interest-form.spec.ts
+│   └── admin-auth.spec.ts
+│
+├── src/
+│   ├── middleware.ts
+│   │
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── globals.css
+│   │   ├── sitemap.ts
+│   │   ├── robots.ts
+│   │   ├── opengraph-image.png
+│   │   ├── loading.tsx
+│   │   ├── error.tsx
+│   │   ├── not-found.tsx
+│   │   │
+│   │   ├── trips/
+│   │   │   └── [slug]/
+│   │   │       ├── page.tsx
+│   │   │       ├── loading.tsx
+│   │   │       ├── error.tsx
+│   │   │       └── opengraph-image.tsx
+│   │   │
+│   │   ├── admin/
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── loading.tsx
+│   │   │   ├── error.tsx
+│   │   │   └── login/
+│   │   │       └── page.tsx
+│   │   │
+│   │   └── auth/
+│   │       └── callback/
+│   │           └── route.ts
+│   │
+│   ├── components/
+│   │   ├── providers.tsx
+│   │   ├── ui/
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── label.tsx
+│   │   │   ├── select.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── sheet.tsx
+│   │   │   ├── skeleton.tsx
+│   │   │   ├── sonner.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── checkbox.tsx
+│   │   │   └── form.tsx
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── MobileNav.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── Container.tsx
+│   │   ├── home/
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── TripSection.tsx
+│   │   │   ├── StatsSection.tsx
+│   │   │   ├── WhyChooseUs.tsx
+│   │   │   └── Testimonials.tsx
+│   │   ├── trips/
+│   │   │   ├── TripCard.tsx
+│   │   │   ├── TripDetails.tsx
+│   │   │   ├── TripGallery.tsx
+│   │   │   └── InterestModal.tsx
+│   │   ├── forms/
+│   │   │   ├── InterestForm.tsx
+│   │   │   ├── SubmitButton.tsx
+│   │   │   └── HoneypotField.tsx
+│   │   └── admin/
+│   │       ├── AdminSidebar.tsx
+│   │       ├── AdminMobileNav.tsx
+│   │       ├── LogoutButton.tsx
+│   │       ├── StatsCards.tsx
+│   │       ├── SubmissionsTable.tsx
+│   │       ├── TripFilter.tsx
+│   │       ├── TripSummary.tsx
+│   │       └── StudentChart.tsx
+│   │
+│   ├── config/
+│   │   └── site.ts
+│   │
+│   ├── hooks/
+│   │   ├── use-media-query.ts
+│   │   ├── use-debounce.ts
+│   │   └── use-scroll.ts
+│   │
+│   ├── emails/
+│   │   └── InterestConfirmation.tsx
+│   │
+│   ├── lib/
+│   │   ├── env.ts
+│   │   ├── supabase/
+│   │   │   ├── client.ts
+│   │   │   ├── server.ts
+│   │   │   └── auth.ts
+│   │   ├── actions/
+│   │   │   ├── interest-actions.ts
+│   │   │   ├── admin-actions.ts
+│   │   │   └── auth-actions.ts
+│   │   ├── validations/
+│   │   │   └── interest-schema.ts
+│   │   ├── security/
+│   │   │   ├── rate-limit.ts
+│   │   │   ├── honeypot.ts
+│   │   │   └── turnstile.ts
+│   │   ├── email/
+│   │   │   └── send-confirmation.ts
+│   │   ├── analytics.ts
+│   │   └── utils.ts
+│   │
+│   ├── data/
+│   │   └── trips.ts
+│   │
+│   └── types/
+│       ├── trip.ts
+│       ├── interest.ts
+│       └── database.ts
+│
+├── supabase/
+│   ├── config.toml
+│   ├── seed.sql
+│   └── migrations/
+│       └── 20261026000000_create_trip_interests.sql
+│
+├── .env.example
+├── .gitignore
+├── components.json
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── playwright.config.ts
+├── tsconfig.json
+└── README.md

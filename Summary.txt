@@ -1,0 +1,496 @@
+MB LEARNING  |  SCHOOL TRIP INTEREST PLATFORM
+
+School Trip
+Interest Platform
+
+Project Vision, Product Scope & Implementation Plan
+
+Project at a glance
+A responsive, full-stack web application for MB Learning that helps teachers explore educational trips in Hyderabad, Jaipur and Delhi, register their school's interest, and enables authorized administrators to manage enquiries through a secure dashboard.
+
+Prepared for: MB Learning Founders' Office — Website & App Developer practical assessment
+
+Delivery target: 48-hour take-home assessment
+
+Document purpose: Define the product vision, scope, technology choices, user journeys, implementation approach, security, quality standards and delivery priorities.
+
+
+Project Vision & Implementation Brief  •  Assessment Planning Document
+
+MB LEARNING  |  SCHOOL TRIP INTEREST PLATFORM
+
+1. Executive Summary
+
+The School Trip Interest Platform is a small but complete product prototype for MB Learning, an educational-travel and university-programme provider serving school students in India and abroad. The application will present three curated educational experiences and give teachers a simple way to register interest on behalf of their schools.
+
+The application has two connected experiences: a public-facing website for discovering trips and submitting enquiries, and a protected admin dashboard for reviewing those enquiries, filtering them by destination, and understanding student-interest totals. Submissions are persisted in Supabase rather than kept only in browser state.
+
+Product principle
+Build a polished, trustworthy and mobile-friendly experience, but prioritize a fully working end-to-end flow, secure data access and reliable deployment over unnecessary complexity.
+
+2. Vision and End Goal
+
+Vision
+
+Make educational travel feel accessible, inspiring and easy to organize. The website should communicate that learning can extend beyond the classroom through hands-on STEM discovery, cultural exploration, history and civic learning.
+
+End goal
+
+Deliver a deployed web application where a teacher can explore the three destinations, choose a trip, submit school and contact details with the expected student count, and receive clear confirmation that the enquiry was received. An authorized MB Learning administrator can then securely sign in, review all submissions, filter by trip and see accurate totals.
+
+What success looks like
+
+A first-time visitor can understand the offering and find a relevant trip quickly.
+
+The registration form is easy to complete on desktop and mobile, with immediate validation and clear success/error feedback.
+
+Every valid enquiry is saved in Supabase and appears in the admin dashboard.
+
+Admin totals are calculated from real saved records, not hardcoded demonstration values.
+
+Private enquiry data is inaccessible to anonymous visitors and unauthorized users.
+
+The site is deployed on Vercel and documented well enough for another developer to run it.
+
+3. Educational Destinations
+
+The assessment will feature three sample destinations. The content is illustrative and can be refined with MB Learning's actual itineraries, partner venues and programme details.
+
+Hyderabad — STEM & Innovation
+
+Theme: Science, technology and innovation
+
+Learning purpose: Encourage curiosity, problem-solving and practical understanding of technology.
+
+Possible content: Potential highlights: science and innovation experiences, technology demonstrations, hands-on learning activities and collaborative challenges.
+
+Jaipur — Heritage & Culture
+
+Theme: History, architecture and cultural heritage
+
+Learning purpose: Help students connect classroom learning with historic places, design, craftsmanship and local culture.
+
+Possible content: Potential highlights: heritage architecture, historical storytelling, traditional crafts and guided cultural exploration.
+
+Delhi — History, Leadership & Institutions
+
+Theme: National history, civic learning and institutions
+
+Learning purpose: Introduce students to India's historical narrative, public institutions and civic life.
+
+Possible content: Potential highlights: heritage landmarks, museums, educational institutions and age-appropriate civic-learning activities.
+
+Important: Do not invent confirmed dates, prices, partner affiliations, university access, safety guarantees or itinerary details. Clearly label sample content as illustrative until verified by MB Learning.
+
+4. Target Users and Their Needs
+
+Teachers and school coordinators
+
+Understand what students may learn from each trip.
+
+Compare destinations without navigating a complicated website.
+
+Submit school contact information and an approximate number of interested students.
+
+Receive a clear acknowledgement and know what happens next.
+
+MB Learning administrators
+
+Sign in securely using Supabase email authentication.
+
+Review and search submitted enquiries.
+
+Filter records by Hyderabad, Jaipur or Delhi.
+
+See total enquiries and total students, including per-destination summaries.
+
+Use the dashboard comfortably on desktop and mobile.
+
+5. Website Sections and Features
+
+A. Navigation
+
+Brand/logo, Trips, About/How It Works and a prominent Register Interest call to action. Use a responsive mobile drawer rather than squeezing desktop navigation onto small screens.
+
+B. Hero section
+
+A strong headline such as “Learning Beyond the Classroom,” concise supporting copy, an educational-travel image and a clear Explore Trips action.
+
+C. Destination cards
+
+Three visually distinct cards for Hyderabad, Jaipur and Delhi. Each includes a destination image, programme theme, short description, learning outcomes and an Explore Trip action.
+
+D. Trip detail pages
+
+A dedicated URL for each destination with a gallery, overview, learning objectives, sample highlights and a registration action. The selected destination should be preselected in the interest form.
+
+E. Why MB Learning / How It Works
+
+Explain the educational purpose and the enquiry process. Only use verified claims; avoid fabricated testimonials, statistics or partner logos.
+
+F. Interest registration form
+
+Collect teacher name, school name, email, phone, selected trip and number of students. Provide inline validation, accessible labels, a pending state, duplicate-click prevention and a clear result message.
+
+G. Submission confirmation
+
+After the database confirms a successful insert, show a success message. An optional confirmation email can be sent if the email service is configured; email failure should not erase a successfully saved enquiry.
+
+H. Admin login
+
+A dedicated sign-in screen using Supabase email authentication and a secure session flow.
+
+I. Admin dashboard
+
+KPI cards for total enquiries and students; a destination summary; and a submissions table with trip filtering, loading/empty/error states and responsive layout.
+
+J. Footer
+
+Contact or company information only when verified, plus appropriate navigation and privacy information.
+
+6. Technology Stack
+
+Technology
+
+Role
+
+Why it fits
+
+Next.js App Router
+
+Frontend, routing and server-side logic
+
+Supports route-based pages, Server Components and Server Actions.
+
+TypeScript
+
+Type safety
+
+Makes data shapes and interfaces clearer and helps catch mistakes.
+
+Tailwind CSS
+
+Styling and responsive design
+
+Fast implementation of consistent layouts across screen sizes.
+
+shadcn/ui + Radix primitives
+
+Accessible UI components
+
+Provides reusable form, dialog, sheet, skeleton and button patterns.
+
+React Hook Form + Zod
+
+Form state and validation
+
+Fast client-side feedback with shared schema validation on the server.
+
+Supabase PostgreSQL
+
+Persistent enquiry database
+
+Stores submissions and supports queries for dashboard summaries.
+
+Supabase Auth + RLS
+
+Authentication and data access
+
+Supports secure sessions and policies that restrict private records.
+
+Vercel
+
+Hosting and deployment
+
+Convenient deployment for Next.js and environment configuration.
+
+Sonner
+
+Toast feedback
+
+Provides clear success and failure notifications.
+
+Framer Motion
+
+Optional motion design
+
+Adds restrained transitions and entrance effects.
+
+Recharts
+
+Optional admin visualization
+
+Displays destination-level student totals in a simple chart.
+
+Resend + React Email
+
+Optional confirmation email
+
+Sends a clear acknowledgement after successful persistence.
+
+Vercel Analytics + Speed Insights
+
+Optional product/performance monitoring
+
+Measures site usage and real-user performance where supported.
+
+Playwright
+
+End-to-end testing
+
+Checks key user flows in a browser.
+
+7. How the Application Works
+
+A visitor opens the homepage and explores the three destination cards.
+
+The visitor opens a trip detail page and selects Register Interest.
+
+The form preselects the chosen trip and validates required fields in the browser.
+
+On submission, the server validates the input again, applies bot/rate-limit checks where configured, and writes the record to Supabase.
+
+The UI shows a pending state while processing and then displays success or a recoverable error.
+
+If enabled, the server attempts to send a confirmation email after the database insert succeeds.
+
+An authorized administrator signs in and requests the submissions through a protected server-side data path.
+
+The dashboard filters submissions by trip and calculates totals from saved records.
+
+8. Data Model and Business Logic
+
+The core assessment can be supported by one primary table named `trip_interests`.
+
+id: unique UUID for each enquiry.
+
+teacher_name: teacher's full name.
+
+school_name: school or institution name.
+
+email: contact email address.
+
+phone: contact phone number stored as text to preserve country codes and leading zeros.
+
+trip_slug: validated identifier such as `hyderabad-stem`, `jaipur-heritage` or `delhi-discovery`.
+
+student_count: positive integer representing the number of interested students.
+
+created_at: server-generated timestamp.
+
+Business calculations: total enquiries = count of records; total students = sum of student_count; destination totals = count and sum grouped by trip_slug. Apply filters consistently so displayed summaries match the visible dataset or clearly label them as overall totals.
+
+9. Security, Privacy and Reliability
+
+Enable Supabase Row Level Security. Anonymous users must not be able to read enquiry records.
+
+Allow public inserts only through a deliberately constrained policy or a server-side submission path with appropriate controls.
+
+Restrict admin reads to explicitly authorized administrator identities or roles; authentication alone must not grant every signed-in user access.
+
+Verify authorization in server actions and data-access functions. Middleware redirects are not a replacement for authorization checks.
+
+Keep service-role keys, Resend credentials and CAPTCHA secret keys server-only. Never expose them through NEXT_PUBLIC variables.
+
+Validate fields on both client and server, and add database constraints for valid trip identifiers and positive student counts.
+
+Use a honeypot and, if warranted, Turnstile and a shared-store rate limiter. A process-local in-memory limiter is not reliable across serverless instances.
+
+Prevent accidental duplicate submissions with a disabled pending button; consider idempotency if retry-safe submissions are needed.
+
+Handle database failures, email failures and empty results separately. A failed email should not falsely report that the database submission failed.
+
+Collect only the information needed for the assessment, avoid placing personal information in analytics events, and document data handling appropriately.
+
+10. UX, Accessibility, SEO and Performance
+
+Visual direction
+
+Use a premium, warm and trustworthy educational-travel aesthetic: strong destination photography, generous spacing, clear typography, restrained colors, rounded cards, subtle shadows and consistent buttons. The interface should feel engaging without being overly animated or distracting.
+
+Interaction quality
+
+Responsive navigation and cards on mobile, tablet and desktop.
+
+Accessible form labels, keyboard navigation, visible focus states and understandable error messages.
+
+Loading skeletons for data-heavy routes and clear empty/error states.
+
+A visible submitting state and disabled submit button while a request is pending.
+
+Respect reduced-motion preferences and avoid unnecessary animation on low-powered devices.
+
+SEO and link sharing
+
+Unique page titles and descriptions for the homepage and each destination.
+
+Open Graph previews for attractive WhatsApp and email link sharing.
+
+A sitemap containing public pages only; admin and authentication routes should not be indexed.
+
+Canonical site URL configured for the deployed domain.
+
+Optimized image sizes and descriptive alt text.
+
+Analytics
+
+If time permits, measure destination page views, registration form starts and successful submissions. Treat these as a funnel, not just page traffic. Analytics must avoid transmitting teacher names, email addresses, phone numbers or other personal data.
+
+11. External Services and API Keys
+
+No AI API is needed. Trip content is predefined, so local TypeScript data is simpler, faster and more reliable than calling a generative AI or destination-information API.
+
+Required: Supabase project URL and a browser-safe publishable/anon key configured with appropriate RLS.
+
+Deployment: Vercel project and correctly configured environment variables.
+
+Optional: Resend API key and verified sender for confirmation emails.
+
+Optional: Cloudflare Turnstile site key and secret for bot verification.
+
+Optional: shared rate-limit provider credentials if using a distributed limiter.
+
+Optional: Vercel Analytics and Speed Insights packages, subject to deployment support and applicable settings.
+
+Use free tiers only where available and appropriate, and check their current quotas, verification requirements and usage limits. Optional integrations should be feature-gated so missing optional credentials do not break the core application.
+
+12. Testing and Acceptance Criteria
+
+The homepage displays Hyderabad, Jaipur and Delhi with working destination links.
+
+The interest form rejects missing fields, invalid email formats and non-positive student counts.
+
+A valid submission is saved once in Supabase and produces clear success feedback.
+
+Repeated clicks while submitting do not trigger accidental duplicate requests.
+
+The admin can sign in, see records, filter by destination and view correct totals.
+
+An anonymous visitor and a non-admin authenticated user cannot read private enquiry data.
+
+Logout ends the admin session and protected access is denied afterward.
+
+The site works on common mobile and desktop viewports.
+
+Loading, empty, validation, database-error and email-error states are handled.
+
+The deployed Vercel application works with production environment variables.
+
+The README explains setup, configuration, testing, deployment and any unfinished limitations.
+
+13. 48-Hour Implementation Plan
+
+Time window
+
+Focus
+
+Deliverable
+
+Hours 0–4
+
+Project setup
+
+Next.js, TypeScript, styling, Supabase project and environment setup.
+
+Hours 4–12
+
+Public experience
+
+Homepage, destination cards, trip detail pages and responsive navigation.
+
+Hours 12–20
+
+Form and persistence
+
+Zod validation, submission action, database migration, RLS and success/error feedback.
+
+Hours 20–28
+
+Admin workflow
+
+Supabase authentication, authorization, protected table, trip filters and totals.
+
+Hours 28–34
+
+Deployment
+
+Vercel deployment, environment variables and production smoke tests.
+
+Hours 34–40
+
+Quality and polish
+
+Mobile QA, accessibility, loading/error states and SEO.
+
+Hours 40–44
+
+Testing
+
+Playwright smoke tests and regression fixes.
+
+Hours 44–48
+
+Submission
+
+README, AI-tool disclosure, final review and shareable deployment/repository links.
+
+The timeline is a prioritization guide, not a promise. If time becomes tight, defer optional email, CAPTCHA, charts and advanced motion until the core public-to-admin workflow is secure and working.
+
+14. README and Submission Package
+
+Project overview and screenshots.
+
+Feature list and supported destinations.
+
+Technology stack and architecture summary.
+
+Local setup instructions and required environment variables.
+
+Supabase setup, migration commands, seed-data instructions and admin-user setup.
+
+Development, linting and test commands.
+
+Vercel deployment steps.
+
+Security notes and known limitations.
+
+Next steps such as enquiry status tracking, CSV export, notifications and verified itinerary content.
+
+Honest AI-tool disclosure explaining which tools assisted with planning, coding, debugging, tests or documentation and what was reviewed manually.
+
+15. Scope Boundaries and Future Improvements
+
+In scope for the assessment
+
+Three sample destination experiences.
+
+Teacher interest registration and persistence.
+
+Secure admin login and enquiry dashboard.
+
+Trip filtering and student totals.
+
+Responsive UI, validation, deployment and documentation.
+
+Potential future enhancements
+
+Enquiry statuses such as New, Contacted, Qualified and Closed.
+
+CSV export and date-range filtering.
+
+Admin email alerts and teacher confirmation emails.
+
+Verified itineraries, schedules, costs and downloadable programme brochures.
+
+Role-based access for multiple staff members.
+
+Privacy/retention controls and a fuller audit trail.
+
+Conversion funnel analysis and performance optimization based on real data.
+
+16. Final Product Definition
+
+Definition of done
+A teacher can discover a trip in Hyderabad, Jaipur or Delhi, submit a validated school enquiry, and receive clear feedback. The record is stored securely in Supabase. An authorized MB Learning administrator can log in, review and filter submissions, and see accurate student totals. The application is deployed on Vercel, works on mobile and desktop, and includes clear setup documentation.
+
+The strongest submission is not the one with the most integrations. It is the one that demonstrates product judgment: an engaging teacher experience, secure and correct data handling, a useful admin workflow, reliable deployment, thoughtful testing and honest documentation.
