@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight, BookOpenCheck } from "lucide-react";
+import { ArrowRight, BookOpenCheck } from "lucide-react";
+import { MobileNav } from "@/components/layout/mobile-nav";
 
 export function Navbar() {
   return (
@@ -9,13 +10,15 @@ export function Navbar() {
           <span className="brand-mark"><BookOpenCheck size={20} aria-hidden="true" /></span>
           <span>MB <b>LEARNING</b></span>
         </Link>
-        <div className="nav-links">
-          <Link href="/#trips">Explore trips</Link>
-          <Link href="/#approach">Our approach</Link>
-        </div>
-        <Link className="button button-primary nav-cta" href="/#trips">
-          Find a trip <ArrowUpRight size={16} aria-hidden="true" />
+        <nav className="nav-links" aria-label="Primary navigation">
+          <Link href="/#trips">Trips</Link>
+          <Link href="/#how-it-works">How It Works</Link>
+          <Link href="/#about">About</Link>
+        </nav>
+        <Link className="button button-primary nav-cta" href="/#register-interest">
+          Register Interest <ArrowRight size={16} aria-hidden="true" />
         </Link>
+        <MobileNav />
       </nav>
     </header>
   );

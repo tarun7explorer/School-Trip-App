@@ -8,13 +8,13 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "MB Learning | School Trips",
+    default: "School Trips for Curious Classrooms | MB Learning",
     template: "%s | MB Learning",
   },
-  description: "Explore illustrative educational trip themes in Hyderabad, Jaipur and Delhi with MB Learning.",
+  description: "Explore educational trip themes for schools in Hyderabad, Jaipur and Delhi. Find a starting point for learning beyond the classroom with MB Learning.",
   openGraph: {
-    title: "MB Learning | School Trips",
-    description: "Explore learning themes for school trips in India.",
+    title: "School Trips for Curious Classrooms | MB Learning",
+    description: "Explore educational trip themes for schools in Hyderabad, Jaipur and Delhi.",
     type: "website",
   },
   robots: { index: true, follow: true },
