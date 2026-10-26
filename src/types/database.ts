@@ -41,7 +41,28 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      get_admin_interest_summary: {
+        Args: Record<PropertyKey, never>;
+        Returns: { trip_slug: string; enquiry_count: number; student_count: number }[];
+      };
+      get_admin_interest_count: {
+        Args: { p_trip_slug: string | null; p_search: string | null };
+        Returns: number;
+      };
+      get_admin_interest_page: {
+        Args: { p_trip_slug: string | null; p_search: string | null; p_limit: number; p_offset: number };
+        Returns: {
+          teacher_name: string;
+          school_name: string;
+          email: string;
+          phone: string;
+          trip_slug: string;
+          student_count: number;
+          created_at: string;
+        }[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

@@ -41,7 +41,7 @@ test("an approved administrator reads enquiries and loses access after logout", 
   await page.getByLabel("Password").fill(adminPassword!);
   await page.getByRole("button", { name: "Sign in" }).click();
   await expect(page).toHaveURL(/\/admin$/);
-  await expect(page.getByRole("heading", { name: "School trip enquiries" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Enquiry dashboard" })).toBeVisible();
 
   const authorized = await page.request.get("/api/admin/enquiries");
   expect(authorized.status()).toBe(200);
@@ -62,7 +62,7 @@ test("an authenticated non-admin cannot read private enquiries", async ({ browse
   expect(response.status()).toBe(403);
   await page.goto("http://127.0.0.1:3100/admin");
   await expect(page).toHaveURL(/\/admin$/);
-  await expect(page.getByRole("heading", { name: "School trip enquiries" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Enquiry dashboard" })).toHaveCount(0);
   await context.close();
 });
 
