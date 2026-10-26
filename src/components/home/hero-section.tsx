@@ -9,7 +9,7 @@ export function HeroSection() {
         <div className="hero-copy">
           <p className="eyebrow hero-eyebrow"><span className="eyebrow-marker" /> SCHOOL TRIP INTEREST PLATFORM</p>
           <h1 id="hero-title">Learning Beyond<br />the <em>Classroom</em></h1>
-          <p className="hero-description">Bring classroom ideas into the world. Explore learning themes in Hyderabad, Jaipur and Delhi, and find a starting point for your school's next experience.</p>
+          <p className="hero-description">Bring classroom ideas into the world. Explore learning themes in Hyderabad, Jaipur and Delhi, and find a starting point for your school&apos;s next experience.</p>
           <div className="hero-actions">
             <Link className="button button-primary" href="#trips">Explore Trips <ArrowRight size={17} aria-hidden="true" /></Link>
             <a className="quiet-link" href="#how-it-works">How it works <ArrowDown size={15} aria-hidden="true" /></a>

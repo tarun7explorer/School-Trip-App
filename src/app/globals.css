@@ -141,6 +141,76 @@ h1, h2, h3, p { margin-top: 0; }
 .detail-page { min-height: 70vh; }.detail-wrap { max-width: 1000px; padding: 48px 32px 100px; margin: auto; }.back-link { display: inline-flex; align-items: center; gap: 8px; color: #65736a; font-size: 12px; }.detail-banner { height: 260px; margin: 32px 0 46px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 13px; color: #315d49; background: radial-gradient(circle at 72% 35%,#f5db9d 0 35px,transparent 36px),linear-gradient(155deg,#e0eadb,#a6c1a7); }.detail-banner span { font-size: 9px; letter-spacing: .18em; }.detail-banner strong { font: 400 48px var(--serif); }.detail-jaipur-heritage { color: #87543c; background: radial-gradient(circle at 72% 35%,#fff0c0 0 35px,transparent 36px),linear-gradient(155deg,#f1dfc6,#d9a47d); }.detail-delhi-discovery { color: #3b606a; background: radial-gradient(circle at 72% 35%,#f9d891 0 35px,transparent 36px),linear-gradient(155deg,#dce8eb,#a0b9c0); }.detail-city { margin-bottom: 8px; }.detail-wrap > h1 { margin: 0; font: 400 clamp(38px,6vw,60px)/1.1 var(--serif); letter-spacing: -.04em; }.detail-lead { max-width: 650px; margin: 18px 0 48px; color: var(--muted); font-size: 16px; line-height: 1.8; }.detail-content-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: 70px; }.detail-content-grid h2 { margin: 9px 0 24px; font: 400 29px var(--serif); }.highlight-list { display: grid; gap: 17px; padding: 0; margin: 0; list-style: none; }.highlight-list li { display: flex; align-items: flex-start; gap: 12px; color: #536259; font-size: 13px; line-height: 1.6; }.highlight-list svg { flex: 0 0 auto; color: var(--forest); }.detail-aside { align-self: start; padding: 24px; border: 1px solid var(--line); background: #fff; }.aside-number { color: var(--forest); font-size: 9px; font-weight: 700; letter-spacing: .15em; }.detail-aside p { margin: 14px 0 22px; color: var(--muted); font-size: 12px; line-height: 1.75; }
 .not-found { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; text-align: center; }.not-found h1 { margin: 16px 0 8px; font: 400 44px var(--serif); }.not-found > p:not(.eyebrow) { color: var(--muted); margin-bottom: 24px; }
 
+/* Destination detail pages */
+.trip-detail-page { min-height: 70vh; }
+.trip-detail-wrap { max-width: 1220px; padding: 33px 42px 92px; margin: auto; }
+.breadcrumb-nav ol { display: flex; align-items: center; gap: 12px; padding: 0; margin: 0 0 28px; list-style: none; color: #879289; font-size: 10px; }
+.breadcrumb-nav li:last-child { color: #42584e; font-weight: 650; }
+.breadcrumb-nav a { display: inline-flex; align-items: center; gap: 7px; transition: color .18s ease; }
+.breadcrumb-nav a:hover { color: var(--forest); }
+.trip-detail-hero { display: grid; grid-template-columns: 1.06fr .94fr; align-items: center; gap: clamp(37px,6.5vw,84px); padding-bottom: 69px; }
+.trip-detail-photo { position: relative; min-height: 405px; aspect-ratio: 1.42; overflow: hidden; border-radius: 33% 7px 7px 7px; background: #dce6d7; box-shadow: 0 18px 48px #203b3214; }
+.trip-detail-image { object-fit: cover; }
+.trip-photo-hyderabad-stem .trip-detail-image { object-position: 52% center; }
+.trip-photo-jaipur-heritage .trip-detail-image { object-position: 62% center; }
+.trip-photo-delhi-discovery .trip-detail-image { object-position: 54% center; }
+.detail-image-note { position: absolute; left: 17px; bottom: 17px; z-index: 1; display: flex; align-items: center; gap: 8px; padding: 9px 11px; border-radius: 40px; color: #fff; background: #142c3575; font-size: 7px; letter-spacing: .13em; backdrop-filter: blur(8px); }
+.detail-image-note span { width: 6px; height: 6px; border-radius: 50%; background: #d4e19f; }
+.trip-detail-intro { padding: 18px 0; }
+.trip-detail-city { margin: 14px 0 6px; color: var(--forest); font: 400 23px var(--serif); }
+.trip-detail-intro h1 { margin: 0; font: 400 clamp(38px,4.2vw,54px)/1.08 var(--serif); letter-spacing: -.04em; }
+.trip-detail-summary { margin: 17px 0 0; color: #52635b; font-size: 13px; line-height: 1.75; }
+.trip-detail-purpose { margin: 11px 0 23px; color: var(--muted); font-size: 11px; line-height: 1.8; }
+.trip-cta-note { max-width: 330px; margin: 12px 0 0; color: #7a8980; font-size: 9px; line-height: 1.6; }
+.trip-overview-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; padding: 46px 0 50px; border-top: 1px solid var(--line); }
+.trip-section-title h2, .activities-heading h2, .highlights-section h2 { margin: 13px 0 0; font: 400 clamp(31px,3.3vw,43px)/1.09 var(--serif); letter-spacing: -.035em; }
+.trip-overview-copy > p { max-width: 660px; margin: 0; color: #596a61; font-size: 13px; line-height: 1.9; }
+.illustrative-callout { display: flex; align-items: flex-start; gap: 13px; max-width: 660px; padding: 15px; margin-top: 20px; border: 1px solid #dce4d8; border-radius: 6px; background: #eef2e9; }
+.callout-icon { flex: 0 0 auto; display: grid; place-items: center; width: 33px; height: 33px; border-radius: 50%; color: var(--forest); background: #dfe8d8; }
+.illustrative-callout p { margin: 0; color: #51645a; font-size: 10px; line-height: 1.75; }
+.learning-objectives { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; padding: 38px 0 49px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.objectives-heading { display: flex; align-items: flex-start; gap: 13px; }
+.detail-section-icon { flex: 0 0 auto; display: grid; place-items: center; width: 39px; height: 39px; border-radius: 50%; color: var(--forest); background: #e4eadf; }
+.objectives-heading h2 { margin: 7px 0 0; font: 400 28px var(--serif); }
+.objectives-list, .highlight-list { display: grid; gap: 14px; padding: 0; margin: 0; list-style: none; }
+.objectives-list li, .highlight-list li { display: flex; align-items: flex-start; gap: 12px; color: #53645b; font-size: 11px; line-height: 1.7; }
+.objectives-list li > span, .highlight-list li > span { flex: 0 0 auto; display: grid; place-items: center; width: 23px; height: 23px; border-radius: 50%; color: var(--forest); background: #e8eee3; }
+.activities-section { padding: 69px 0 70px; }
+.activities-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 25px; color: var(--forest); }
+.activities-heading h2 { color: var(--ink); }
+.activity-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; }
+.activity-card { min-height: 126px; padding: 20px; border: 1px solid #e2e6de; border-radius: 6px; background: #fffefa; transition: transform .22s ease, box-shadow .22s ease; }
+.activity-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px #203b3210; }
+.activity-card > span { color: #8b9a8d; font: 13px var(--serif); }
+.activity-card h3 { margin: 18px 0 0; color: #29443a; font: 400 17px/1.3 var(--serif); }
+.highlights-section { padding: 35px 40px 38px; border: 1px solid #e3e5dc; border-radius: 7px; background: #f0f0e8; }
+.highlights-topline { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.highlights-topline > span { color: #89958b; font-size: 7px; letter-spacing: .12em; }
+.highlights-section h2 { margin: 8px 0 22px; font-size: 31px; }
+.highlights-section .highlight-list { grid-template-columns: repeat(3,1fr); gap: 17px; }
+.highlight-disclaimer { margin: 23px 0 0; color: #7a8980; font-size: 9px; }
+.trip-bottom-cta { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 34px 39px; margin-top: 64px; border-radius: 7px; color: #f8f7f0; background: #173a37; }
+.trip-bottom-cta h2 { margin: 8px 0; font: 400 clamp(26px,3vw,36px)/1.12 var(--serif); }
+.trip-bottom-cta > div:first-child > p:last-child { margin: 0; color: #ccd8cf; font-size: 10px; }
+.trip-bottom-actions { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.trip-bottom-actions .button { white-space: nowrap; }
+.trip-back-cta { color: #dee7de; font-size: 9px; }
+.trip-back-cta:hover { text-decoration: underline; }
+.interest-handoff-page { min-height: 63vh; display: grid; place-items: center; padding: 56px 22px 80px; }
+.interest-handoff-card { width: min(100%,610px); padding: 36px; border: 1px solid var(--line); border-radius: 8px; background: #fffefa; box-shadow: 0 14px 38px #203b320a; }
+.interest-handoff-card > .back-link { margin-bottom: 38px; }
+.interest-handoff-card h1 { margin: 10px 0 23px; font: 400 clamp(35px,5vw,48px)/1.08 var(--serif); letter-spacing: -.035em; }
+.selected-trip-summary { display: flex; align-items: flex-start; gap: 14px; padding: 19px; border: 1px solid #e1e7da; border-radius: 6px; background: #f0f3eb; }
+.selected-trip-summary > span { display: grid; place-items: center; flex: 0 0 auto; width: 27px; height: 27px; border-radius: 50%; color: var(--forest); background: #dfe9d8; }
+.selected-trip-city { margin: 0 0 6px; color: #7e8d82; font-size: 8px; font-weight: 800; letter-spacing: .15em; }
+.selected-trip-summary h2 { margin: 0; font: 400 24px var(--serif); }
+.selected-trip-summary p:last-child { margin: 4px 0 0; color: #56685e; font-size: 11px; }
+.interest-handoff-note { margin: 21px 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
+.interest-trip-options { display: grid; gap: 8px; }
+.interest-trip-options a { min-height: 59px; display: grid; grid-template-columns: 120px 1fr auto; gap: 12px; align-items: center; padding: 10px 13px; border: 1px solid var(--line); border-radius: 5px; color: #344a40; font-size: 11px; transition: border-color .18s ease, background .18s ease; }
+.interest-trip-options a:hover { border-color: #b8c9b3; background: #f2f5ee; }
+.interest-trip-options a span { color: var(--forest); font: 15px var(--serif); }
+
 @keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 900px) { .nav-shell { padding: 0 25px; }.hero-section { padding: 55px 25px 36px; }.hero-layout { min-height: 450px; gap: 34px; }.hero-photo-wrap { min-height: 410px; }.section-wrap { padding-right: 25px; padding-left: 25px; }.trip-grid { gap: 15px; }.trip-card-content { padding: 19px 17px; }.trip-card-content h3 { font-size: 20px; }.why-section { padding-right: 25px; padding-left: 25px; }.why-inner { gap: 50px; }.site-footer { padding-right: 25px; padding-left: 25px; } }
 @media (max-width: 700px) {
@@ -204,3 +274,44 @@ h1, h2, h3, p { margin-top: 0; }
 }
 @media (max-width: 365px) { .hero-actions { gap: 11px; }.hero-actions .button { padding: 0 11px; }.quiet-link { gap: 4px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+@media (max-width: 900px) {
+  .trip-detail-wrap { padding-right: 25px; padding-left: 25px; }
+  .trip-detail-hero { gap: 35px; }
+  .trip-detail-photo { min-height: 350px; }
+  .trip-overview-section, .learning-objectives { gap: 40px; }
+  .highlights-section { padding-right: 27px; padding-left: 27px; }
+}
+@media (max-width: 700px) {
+  .trip-detail-wrap { padding: 28px 20px 70px; }
+  .breadcrumb-nav ol { margin-bottom: 21px; }
+  .trip-detail-hero { grid-template-columns: 1fr; gap: 28px; padding-bottom: 43px; }
+  .trip-detail-photo { min-height: 0; aspect-ratio: 1.2; border-radius: 31% 6px 6px 6px; }
+  .trip-detail-intro { padding: 0; }
+  .trip-detail-city { margin-top: 11px; font-size: 20px; }
+  .trip-detail-intro h1 { font-size: clamp(37px,10vw,48px); }
+  .trip-detail-summary { margin-top: 13px; font-size: 12px; }
+  .trip-detail-purpose { margin: 9px 0 19px; }
+  .trip-overview-section, .learning-objectives { grid-template-columns: 1fr; gap: 19px; padding: 31px 0; }
+  .trip-section-title h2 { font-size: 34px; }
+  .trip-overview-copy > p { font-size: 12px; }
+  .objectives-heading h2 { font-size: 25px; }
+  .objectives-list li, .highlight-list li { font-size: 10px; }
+  .activities-section { padding: 48px 0; }
+  .activities-heading h2 { font-size: 34px; }
+  .activity-grid { grid-template-columns: 1fr; gap: 9px; }
+  .activity-card { min-height: 92px; padding: 15px 17px; }
+  .activity-card h3 { margin-top: 10px; font-size: 16px; }
+  .highlights-section { padding: 23px 19px 24px; }
+  .highlights-topline { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .highlights-section h2 { font-size: 28px; }
+  .highlights-section .highlight-list { grid-template-columns: 1fr; gap: 11px; }
+  .highlight-disclaimer { margin-top: 17px; line-height: 1.65; }
+  .trip-bottom-cta { align-items: flex-start; flex-direction: column; gap: 22px; padding: 26px 22px; margin-top: 39px; }
+  .trip-bottom-cta h2 { font-size: 29px; }
+  .trip-bottom-actions { align-items: flex-start; }
+  .interest-handoff-page { padding: 32px 18px 60px; }
+  .interest-handoff-card { padding: 25px 20px; }
+  .interest-handoff-card > .back-link { margin-bottom: 28px; }
+  .interest-trip-options a { grid-template-columns: 1fr auto; }
+  .interest-trip-options a span { grid-column: 1 / -1; margin-bottom: -8px; }
+}

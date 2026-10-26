@@ -12,7 +12,10 @@ export type Trip = {
   theme: string;
   summary: string;
   learningPurpose: string;
+  overview: string;
   image: string;
   imageAlt: string;
+  learningObjectives: string[];
+  activityCategories: string[];
   sampleHighlights: string[];
 };
