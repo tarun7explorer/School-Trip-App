@@ -30,15 +30,28 @@ export async function getAdminAccess(client?: AdminClient): Promise<AdminAccess>
     }
   }
 
-  const { data, error } = await supabase.auth.getClaims();
-  const userId = data?.claims?.sub;
-  if (error || typeof userId !== "string" || !userId) return { kind: "unauthenticated" };
+  let data: Awaited<ReturnType<AdminClient["auth"]["getClaims"]>>["data"];
+  let error: Awaited<ReturnType<AdminClient["auth"]["getClaims"]>>["error"];
+  try {
+    ({ data, error } = await supabase.auth.getClaims());
+  } catch {
+    return { kind: "unavailable" };
+  }
+  if (error || !data) return { kind: "unauthenticated" };
+  const userId = data.claims?.sub;
+  if (typeof userId !== "string" || !userId) return { kind: "unauthenticated" };
 
-  const { data: admin, error: membershipError } = await supabase
-    .from("admin_users")
-    .select("user_id")
-    .eq("user_id", userId)
-    .maybeSingle();
+  let admin: { user_id: string } | null;
+  let membershipError: unknown;
+  try {
+    ({ data: admin, error: membershipError } = await supabase
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id", userId)
+      .maybeSingle());
+  } catch {
+    return { kind: "unavailable" };
+  }
 
   if (membershipError) return { kind: "unavailable" };
   if (!admin) return { kind: "forbidden" };
@@ -55,15 +68,3 @@ export async function requireAdmin() {
   return access;
 }
 
-export async function listAdminInterests() {
-  const access = await getAdminAccess();
-  if (access.kind !== "authorized") throw new AdminAccessError(access.kind);
-
-  const { data, error } = await access.supabase
-    .from("trip_interests")
-    .select("id, teacher_name, school_name, email, phone, trip_slug, student_count, created_at")
-    .order("created_at", { ascending: false });
-
-  if (error) throw new Error("Unable to load enquiries.");
-  return data;
-}

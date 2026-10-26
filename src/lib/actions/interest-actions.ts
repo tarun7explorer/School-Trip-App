@@ -5,11 +5,11 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createInterestSubmissionService } from "@/lib/interest/submission-service";
 import { checkInterestRateLimit } from "@/lib/security/rate-limit";
 import { sendInterestConfirmation } from "@/lib/email/send-interest-confirmation";
+import { getClientAddress } from "@/lib/security/client-address";
 
 export async function submitTripInterest(input: unknown) {
   const requestHeaders = await headers();
-  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const clientAddress = requestHeaders.get("x-real-ip")?.trim() || forwardedFor || "unknown";
+  const clientAddress = getClientAddress(requestHeaders);
 
   const submit = createInterestSubmissionService({
     rateLimit: () => checkInterestRateLimit(clientAddress),

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { createInterestSubmissionService } from "@/lib/interest/submission-service";
+import { getClientAddress } from "@/lib/security/client-address";
 
 const validSubmission = {
   teacherName: "Asha Rao",
@@ -43,10 +44,17 @@ test("server validation rejects invalid email, destination and student counts", 
     { ...validSubmission, studentCount: 0 },
     { ...validSubmission, studentCount: 301 },
     { ...validSubmission, studentCount: 4.5 },
+    { ...validSubmission, phone: "+91 98\t76543210" },
   ]) {
     const result = await submit(input);
     expect(result.success).toBe(false);
   }
+});
+
+test("rate-limit address selection ignores untrusted forwarded-for values", () => {
+  expect(getClientAddress(new Headers({ "x-real-ip": " 203.0.113.7 ", "x-forwarded-for": "198.51.100.1, 203.0.113.8" }))).toBe("203.0.113.7");
+  expect(getClientAddress(new Headers({ "x-forwarded-for": "198.51.100.1, 203.0.113.8" }))).toBe("unknown");
+  expect(getClientAddress(new Headers())).toBe("unknown");
 });
 
 test("success is returned only after the persistence adapter confirms a save", async () => {

@@ -7,6 +7,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { checkAdminLoginRateLimit } from "@/lib/security/rate-limit";
 import { getAdminAccess } from "@/lib/admin/auth";
 import { adminLoginSchema } from "@/lib/validations/admin-login-schema";
+import { getClientAddress } from "@/lib/security/client-address";
 
 const genericLoginError = "Unable to sign in with those details. Check your email and password, then try again.";
 
@@ -15,8 +16,7 @@ export async function signInAdmin(input: unknown): Promise<{ success: false; mes
   if (!parsed.success) return { success: false, message: genericLoginError };
 
   const requestHeaders = await headers();
-  const forwardedFor = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const clientAddress = requestHeaders.get("x-real-ip")?.trim() || forwardedFor || "unknown";
+  const clientAddress = getClientAddress(requestHeaders);
   const limit = await checkAdminLoginRateLimit(clientAddress, parsed.data.email);
   if (!limit.allowed) return { success: false, message: genericLoginError };
 

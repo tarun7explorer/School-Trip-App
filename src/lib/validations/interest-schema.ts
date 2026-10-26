@@ -14,7 +14,7 @@ export const interestSchema = z.object({
   phone: z
     .string()
     .trim()
-    .regex(/^\+?[0-9][0-9\s().-]{5,22}[0-9]$/, "Enter a valid phone number, including country code if needed."),
+    .regex(/^\+?[0-9][0-9 ().-]{5,22}[0-9]$/, "Enter a valid phone number, including country code if needed."),
   tripSlug: tripSlugSchema,
   studentCount: z
     .number({ invalid_type_error: "Enter the number of interested students." })
