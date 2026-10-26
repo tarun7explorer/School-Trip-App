@@ -48,6 +48,8 @@ npm run typecheck  # strict TypeScript check
 npm run test:e2e   # Playwright browser tests
 ```
 
+Administrator sign-in uses Supabase email/password authentication with server-managed SSR cookies. The `admin_users` table is an explicit allowlist; ordinary authenticated accounts have no access to private enquiries. Configure Supabase Auth's Email provider and disable public sign-ups (invite-only provisioning). The optional Upstash integration also limits admin login attempts; without it, Supabase Auth's own rate limits apply, and the app does not claim to provide a distributed limiter.
+
 Playwright uses Chromium and starts the local development server automatically. Install its browser once with `npx playwright install chromium` if the browser is not present.
 
 ## Architecture
@@ -77,13 +79,23 @@ Playwright uses Chromium and starts the local development server automatically. 
    ```
 
    Alternatively, run the migration and `supabase/seed.sql` in the Supabase SQL Editor.
-3. The `trip_interests` table has RLS enabled. Anonymous users cannot read or write enquiry rows. Authenticated reads are restricted to users provisioned in `admin_users`. The server action uses a server-only service-role client for the single validated insert and supplies neither `id` nor `created_at`, which remain database-generated. The admin UI and user provisioning flow are not implemented yet.
-4. In production, configure Upstash credentials to enable the shared 5-per-15-minute rate limit. Configure Resend only if confirmation emails are wanted; verify the sender address with Resend first.
+3. The `trip_interests` table has RLS enabled. Anonymous users cannot read or write enquiry rows. Authenticated reads are restricted to users provisioned in `admin_users`. The server action uses a server-only service-role client for the single validated insert and supplies neither `id` nor `created_at`, which remain database-generated. Admin enquiry reads use the signed-in SSR client and are independently checked by server-side allowlist authorization.
+4. Provision the first administrator through a trusted operator account: create or invite the person in **Supabase Dashboard → Authentication → Users**, require a strong unique password (or use the invite flow), then add that exact Auth user to the allowlist in the SQL Editor:
+
+   ```sql
+   insert into public.admin_users (user_id)
+   select id from auth.users
+   where email = lower('replace-with-approved-admin-email@example.com')
+   on conflict (user_id) do nothing;
+   ```
+
+   Verify that one row was inserted. Do not expose the SQL Editor or service-role credentials to administrators using the app. To revoke an administrator, delete their row from `public.admin_users`; deleting their Auth user also cascades to the row. Only trusted operators may change membership. Keep email/password sign-in enabled and public sign-ups disabled in Supabase Auth settings.
+5. In production, configure Upstash credentials to enable the shared login and enquiry rate limits. Configure Resend only if confirmation emails are wanted; verify the sender address with Resend first.
 
 ## Deployment
 
-Deploy to Vercel as a standard Next.js application. Set `NEXT_PUBLIC_SITE_URL` to the canonical HTTPS origin and configure the Supabase URL and publishable key in the deployment environment. Apply the SQL migration before enabling any future database-backed workflow. Review Supabase RLS and account provisioning before collecting teacher contact information.
+Deploy to Vercel as a standard Next.js application. Set `NEXT_PUBLIC_SITE_URL` to the canonical HTTPS origin and configure the Supabase URL, publishable key and server-only service-role key in the deployment environment. Apply all SQL migrations before accepting enquiries or granting admin access. The admin session cookie is HttpOnly, SameSite=Lax, and Secure in production; admin pages and private API responses are marked no-store. Review Supabase RLS and account provisioning before collecting teacher contact information.
 
 ## Current scope and next steps
 
-The interest form is persisted through a server action, but requires a Supabase project, applied migrations and seeded trip rows to accept real submissions. Admin authentication/dashboard, administrator provisioning, CAPTCHA, analytics and confirmed programme content are not implemented. A distributed rate limit and confirmation emails are optional and require their documented providers. The form privacy notice explains that enquiry data is stored for authorized MB Learning administrators to review and respond.
+The interest form is persisted through a server action, but requires a Supabase project, applied migrations and seeded trip rows to accept real submissions. Admin access requires the migrations, configured Supabase email/password auth and an explicitly provisioned allowlist row. CAPTCHA, analytics and confirmed programme content are not implemented. A distributed rate limit and confirmation emails are optional and require their documented providers. The form privacy notice explains that enquiry data is stored for authorized MB Learning administrators to review and respond.

@@ -12,12 +12,27 @@ const INCREMENT_WINDOW_SCRIPT = [
 ].join("\n");
 
 export async function checkInterestRateLimit(clientAddress: string): Promise<InterestRateLimit> {
+  return consumeRateLimit("interest", clientAddress, MAX_SUBMISSIONS_PER_WINDOW, WINDOW_SECONDS);
+}
+
+export async function checkAdminLoginRateLimit(clientAddress: string, email: string): Promise<InterestRateLimit> {
+  const ipLimit = await consumeRateLimit("admin-login-ip", clientAddress, 8, WINDOW_SECONDS);
+  if (!ipLimit.allowed) return ipLimit;
+  const accountLimit = await consumeRateLimit("admin-login-account", email.trim().toLowerCase(), 5, WINDOW_SECONDS);
+  return {
+    allowed: accountLimit.allowed,
+    configured: ipLimit.configured || accountLimit.configured,
+    retryAfterSeconds: accountLimit.retryAfterSeconds,
+  };
+}
+
+async function consumeRateLimit(namespace: string, identity: string, limit: number, windowSeconds: number): Promise<InterestRateLimit> {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url && !token) return { allowed: true, configured: false };
   if (!url || !token) return { allowed: false, configured: true, retryAfterSeconds: 60 };
 
-  const addressHash = createHmac("sha256", token).update(clientAddress || "unknown").digest("hex");
+  const identityHash = createHmac("sha256", token).update(identity || "unknown").digest("hex");
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -25,7 +40,7 @@ export async function checkInterestRateLimit(clientAddress: string): Promise<Int
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(["EVAL", INCREMENT_WINDOW_SCRIPT, 1, `mb-learning:interest:${addressHash}`, WINDOW_SECONDS]),
+      body: JSON.stringify(["EVAL", INCREMENT_WINDOW_SCRIPT, 1, `mb-learning:${namespace}:${identityHash}`, windowSeconds]),
       signal: AbortSignal.timeout(2500),
       cache: "no-store",
     });
@@ -41,7 +56,7 @@ export async function checkInterestRateLimit(clientAddress: string): Promise<Int
       return { allowed: false, configured: true, retryAfterSeconds: 60 };
     }
     return {
-      allowed: count <= MAX_SUBMISSIONS_PER_WINDOW,
+      allowed: count <= limit,
       configured: true,
       retryAfterSeconds: Math.max(1, ttl),
     };
