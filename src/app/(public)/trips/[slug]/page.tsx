@@ -18,11 +18,11 @@ export async function generateMetadata({ params }: TripPageProps): Promise<Metad
 
   return {
     title: `${trip.city} — ${trip.theme}`,
-    description: trip.overview,
+    description: trip.seoDescription,
     alternates: { canonical: `/trips/${trip.slug}` },
     openGraph: {
       title: `${trip.city} — ${trip.theme}`,
-      description: trip.summary,
+      description: trip.seoDescription,
       type: "article",
       url: `/trips/${trip.slug}`,
       images: [{ url: trip.image, alt: trip.imageAlt, width: 1536, height: 1024 }],
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: TripPageProps): Promise<Metad
     twitter: {
       card: "summary_large_image",
       title: `${trip.city} — ${trip.theme}`,
-      description: trip.summary,
+      description: trip.seoDescription,
       images: [{ url: trip.image, alt: trip.imageAlt }],
     },
   };
