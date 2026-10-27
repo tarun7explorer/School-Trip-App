@@ -1,5 +1,7 @@
 # MB Learning School Trip Interest Platform
 
+Live Demo - [https://school-trip-app.vercel.app/]
+
 A responsive Next.js application for teachers to explore three illustrative educational trip themes and submit a school's interest. Approved MB Learning administrators can sign in and review the saved enquiries in a protected dashboard.
 
 Trip descriptions and imagery are illustrative. The application does not advertise confirmed itineraries, dates, prices, venue access, university partnerships, or safety guarantees.
