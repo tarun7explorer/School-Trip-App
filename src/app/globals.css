@@ -265,6 +265,7 @@ h1, h2, h3, p { margin-top: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .admin-login-page { min-height: 74vh; display: grid; place-items: center; padding: 56px 21px 74px; background: linear-gradient(180deg,#edf0e7 0%,var(--paper) 430px); }
 .admin-login-card { width: min(100%,450px); padding: 35px; border: 1px solid #e2e6dd; border-radius: 8px; background: #fffefa; box-shadow: 0 16px 43px #203b3210; }
+.admin-login-card > .back-button { margin-bottom: 20px; }
 .admin-login-mark { width: 47px; height: 47px; display: grid; place-items: center; margin-bottom: 22px; border-radius: 50%; color: var(--forest); background: #e4ebdf; }
 .admin-login-card h1 { margin: 10px 0 10px; font: 400 39px/1.08 var(--serif); letter-spacing: -.035em; }
 .admin-login-intro { margin: 0 0 23px; color: var(--muted); font-size: 11px; line-height: 1.7; }
@@ -688,7 +689,7 @@ body { font-size: 16px; line-height: 1.55; }
   .why-section { padding: 72px 20px 75px; }
   .why-inner { grid-template-columns: 1fr; gap: 38px; }
   .why-intro h2 { font-size: 43px; }
-  .benefit-row { grid-template-columns: 39px 1fr 17px; gap: 14px; padding: 21px 0; }
+  .benefit-row { grid-template-columns: 39px minmax(0,1fr); gap: 14px; padding: 21px 0; }
   .benefit-row p { font-size: 10px; }
   .cta-section { padding: 70px 20px 74px; }
   .cta-inner h2 { font-size: 40px; }

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { LoaderCircle, LockKeyhole } from "lucide-react";
+import { BackButton } from "@/components/layout/back-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signInAdmin } from "@/lib/actions/admin-auth-actions";
@@ -29,6 +29,7 @@ export function AdminLoginForm({ authConfigured, accessUnavailable }: { authConf
   return (
     <main id="main" className="admin-login-page" tabIndex={-1}>
       <section className="admin-login-card" aria-labelledby="admin-login-title">
+        <BackButton fallbackHref="/" label="Back to MB Learning" />
         <div className="admin-login-mark"><LockKeyhole size={22} aria-hidden="true" /></div>
         <p className="eyebrow">MB LEARNING · ADMINISTRATION</p>
         <h1 id="admin-login-title">Administrator sign in</h1>
@@ -64,7 +65,6 @@ export function AdminLoginForm({ authConfigured, accessUnavailable }: { authConf
             {isSubmitting ? "Signing in…" : "Sign in"}
           </button>
         </form>}
-        <Link className="admin-login-back" href="/">Back to MB Learning</Link>
       </section>
     </main>
   );

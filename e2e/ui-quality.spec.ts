@@ -2,9 +2,9 @@ import { expect, test } from "@playwright/test";
 
 const publicRoutes = [
   { path: "/", canonical: "/", heading: "Learning Beyond the Classroom" },
-  { path: "/trips/hyderabad-stem", canonical: "/trips/hyderabad-stem", heading: "STEM & Innovation" },
-  { path: "/trips/jaipur-heritage", canonical: "/trips/jaipur-heritage", heading: "Heritage & Culture" },
-  { path: "/trips/delhi-discovery", canonical: "/trips/delhi-discovery", heading: "History, Leadership & Institutions" },
+  { path: "/trips/hyderabad-stem", canonical: "/trips/hyderabad-stem", heading: "A city built on bold ideas." },
+  { path: "/trips/jaipur-heritage", canonical: "/trips/jaipur-heritage", heading: "Read a city through its design." },
+  { path: "/trips/delhi-discovery", canonical: "/trips/delhi-discovery", heading: "Explore the stories behind a capital." },
   { path: "/interest", canonical: "/interest", heading: "Register your school's interest." },
 ];
 

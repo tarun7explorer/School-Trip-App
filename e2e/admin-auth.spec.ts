@@ -26,12 +26,19 @@ test("login validates fields and reports a generic authentication error", async 
   await page.goto("/admin/login");
   await page.getByRole("button", { name: "Sign in" }).click();
   await expect(page.getByText("Enter a valid email address.")).toBeVisible();
-  await expect(page.getByText("Password is required.")).toBeVisible();
+  await expect(page.getByText("Enter your password.")).toBeVisible();
 
   await page.getByLabel("Email address").fill("nobody@example.invalid");
   await page.getByLabel("Password").fill("wrong-password-value");
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page.getByRole("alert")).toContainText("Unable to sign in with those details");
+  await expect(page.locator(".form-error-summary")).toContainText("Unable to sign in with those details");
+});
+
+test("administrator login keeps the shared navigation and highlighted back control", async ({ page }) => {
+  await page.goto("/admin/login");
+  await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Back to MB Learning" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Register Interest" })).toHaveAttribute("href", "/interest");
 });
 
 test("an approved administrator reads enquiries and loses access after logout", async ({ page }) => {

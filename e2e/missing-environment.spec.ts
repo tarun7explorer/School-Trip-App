@@ -22,5 +22,5 @@ test("teacher access is clear that private teacher accounts are not available", 
   await expect(page.getByRole("heading", { name: "A place to start planning." })).toBeVisible();
   await expect(page.getByText(/Teacher accounts and a private teacher dashboard are not enabled/)).toBeVisible();
   await expect(page.getByRole("link", { name: "Explore city themes" })).toHaveAttribute("href", "/#trips");
-  await expect(page.getByRole("link", { name: "Register school interest" })).toHaveAttribute("href", "/interest");
+  await expect(page.locator("#main").getByRole("link", { name: "Register school interest" })).toHaveAttribute("href", "/interest");
 });

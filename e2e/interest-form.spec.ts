@@ -61,7 +61,7 @@ test("database failure keeps entered details and repeated clicks are blocked whi
   expect(actionRequests).toBe(1);
   releaseRequest?.();
 
-  await expect(page.getByRole("alert")).toContainText("We couldn't submit your enquiry just now.");
+  await expect(page.locator(".form-error-summary")).toContainText("We couldn't submit your enquiry just now.");
   await expect(page.getByLabel("Teacher full name")).toHaveValue("Asha Rao");
   await expect(page.getByLabel("School or institution")).toHaveValue("Greenfield School");
   await expect(page.getByLabel("Phone number")).toHaveValue("+91 00987 654321");

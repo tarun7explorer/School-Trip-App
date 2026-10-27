@@ -75,7 +75,7 @@ test("destination back button uses browser history for internal visits", async (
   await page.getByRole("link", { name: /Explore Hyderabad:/ }).click();
   await expect(page).toHaveURL(/\/trips\/hyderabad-stem$/);
   await page.getByRole("button", { name: "Back to all trips" }).click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/#trips$/);
   await expect(page.getByRole("heading", { name: /Learning Beyond/ })).toBeVisible();
 });
 

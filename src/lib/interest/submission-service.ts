@@ -36,7 +36,8 @@ export function createInterestSubmissionService(dependencies: InterestSubmission
       return { success: false, message: "Check the highlighted fields and try again.", fieldErrors };
     }
 
-    const values = interestSchema.omit({ website: true }).parse(parsed.data);
+    const { website, ...values } = parsed.data;
+    void website;
 
     let rateLimit: InterestRateLimit;
     try {
