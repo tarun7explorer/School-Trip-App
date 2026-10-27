@@ -28,6 +28,7 @@ Trip descriptions and imagery are illustrative. The application does not adverti
 - Protected dashboard with all-time totals, per-destination totals, literal search, destination filters, newest-first sorting, and 20-row server-side pagination.
 - Protected read-only enquiries API. Each private data-access path checks administrator authorization, and RLS remains enabled in PostgreSQL.
 - Logout clears the local session cookies. Admin pages and API responses use `private, no-store` caching headers.
+- Teacher Login is an informational access page. Teacher accounts and private teacher records are not implemented; city exploration and school interest registration remain public.
 
 ## Technology and architecture
 
@@ -78,7 +79,7 @@ DEPLOYMENT.md                  Detailed Vercel and Supabase deployment guide
 - Chromium for Playwright browser tests.
 - A Supabase project for actual enquiry persistence and administrator access.
 
-The public pages can run without live Supabase credentials. Real interest submissions require the migrations, seed rows, and server-side service-role key. Admin access additionally requires email/password Auth and an operator-provisioned allowlist row.
+The public pages can run without Supabase credentials. In that mode, the interest form and admin sign-in explain which backend setup is missing; no registration is reported as saved. Real interest submissions require the migrations, seed rows, Supabase URL, and server-side service-role key. Admin access additionally requires the URL, publishable key, email/password Auth, applied migrations and an operator-provisioned allowlist row. Teacher accounts are not supported; `/teacher/login` explains the available public flow.
 
 ## Local installation
 
@@ -186,6 +187,8 @@ npx playwright install chromium
 ```
 
 By default, Playwright starts its own development server on port 3100 with test-only Supabase settings and an empty service-role key. The tests cover public routes, form validation/error handling, navigation, metadata, responsive checks, and anonymous/private API behavior. Authenticated admin/non-admin tests require configured test users. The database-fixture tests require a **local-only** Supabase URL and explicit fixture opt-in; they reject non-local project hosts.
+
+To verify missing-backend behavior, run `PLAYWRIGHT_MISSING_SUPABASE=1 npx playwright test e2e/missing-environment.spec.ts` (PowerShell: `$env:PLAYWRIGHT_MISSING_SUPABASE = "1"; npx playwright test e2e/missing-environment.spec.ts`). This starts the isolated test server without Supabase URL or keys and checks that public pages still render while backend-dependent pages explain setup requirements.
 
 For the fixture-enabled run, use a throwaway local Supabase instance with migrations and seed rows applied. Set `PLAYWRIGHT_USE_CONFIGURED_SUPABASE=1`, local `NEXT_PUBLIC_SUPABASE_URL`, local publishable key, `SUPABASE_SERVICE_ROLE_KEY`, `E2E_ALLOW_DATABASE_FIXTURES=1`, and the `E2E_AUTH_ADMIN_EMAIL` / `E2E_AUTH_ADMIN_PASSWORD` and `E2E_AUTH_NON_ADMIN_EMAIL` / `E2E_AUTH_NON_ADMIN_PASSWORD` variables. The configured non-admin account must not be in `admin_users`. Never set the fixture flag with a Production or remote Supabase URL. When enabled, Playwright passes the local service-role key only to its isolated Next.js test server and test process, never to browser code.
 

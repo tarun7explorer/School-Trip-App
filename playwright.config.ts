@@ -2,8 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 
 const baseURL = "http://127.0.0.1:3100";
 const useConfiguredSupabase = process.env.PLAYWRIGHT_USE_CONFIGURED_SUPABASE === "1";
-const supabaseUrl = useConfiguredSupabase ? process.env.NEXT_PUBLIC_SUPABASE_URL : "http://127.0.0.1:54329";
-const supabasePublishableKey = useConfiguredSupabase ? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY : "playwright-test-only-publishable-key";
+const missingSupabase = process.env.PLAYWRIGHT_MISSING_SUPABASE === "1";
+const supabaseUrl = missingSupabase ? "" : useConfiguredSupabase ? process.env.NEXT_PUBLIC_SUPABASE_URL : "http://127.0.0.1:54329";
+const supabasePublishableKey = missingSupabase ? "" : useConfiguredSupabase ? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY : "playwright-test-only-publishable-key";
 const allowDatabaseFixtures = process.env.E2E_ALLOW_DATABASE_FIXTURES === "1";
 const supabaseHostname = supabaseUrl ? new URL(supabaseUrl).hostname : "";
 const isLocalSupabase = ["localhost", "127.0.0.1", "::1"].includes(supabaseHostname);

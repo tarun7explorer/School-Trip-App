@@ -77,6 +77,7 @@ export function MobileNav() {
               {links.map((link) => (
                 <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>{link.label}</Link>
               ))}
+              <Link href="/teacher/login" onClick={() => setOpen(false)}>Teacher Login</Link>
               <Link href="/admin/login" onClick={() => setOpen(false)}>Admin Login</Link>
               <Link className="mobile-register" href="/interest" onClick={() => setOpen(false)}>Register Interest</Link>
             </nav>

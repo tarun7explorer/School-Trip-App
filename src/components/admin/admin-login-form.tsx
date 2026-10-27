@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { signInAdmin } from "@/lib/actions/admin-auth-actions";
 import { adminLoginSchema, type AdminLoginValues } from "@/lib/validations/admin-login-schema";
 
-export function AdminLoginForm() {
+export function AdminLoginForm({ authConfigured, accessUnavailable }: { authConfigured: boolean; accessUnavailable: boolean }) {
   const [formError, setFormError] = useState("");
   const form = useForm<AdminLoginValues>({
     resolver: zodResolver(adminLoginSchema),
@@ -34,7 +34,18 @@ export function AdminLoginForm() {
         <h1 id="admin-login-title">Administrator sign in</h1>
         <p className="admin-login-intro">Sign in with an account authorized by MB Learning.</p>
 
-        <form className="admin-login-form" noValidate onSubmit={form.handleSubmit(onSubmit)}>
+        {!authConfigured && (
+          <div className="backend-config-note" role="status">
+            <strong>Administrator sign-in is unavailable.</strong> Configure <code>NEXT_PUBLIC_SUPABASE_URL</code> and <code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code>, apply the documented migrations, and provision an approved administrator in <code>admin_users</code>.
+          </div>
+        )}
+        {authConfigured && accessUnavailable && (
+          <div className="backend-config-note" role="status">
+            <strong>Administrator access could not be verified.</strong> Check Supabase connectivity, applied migrations, and the administrator allowlist. No account is granted access by sign-in alone.
+          </div>
+        )}
+
+        {authConfigured && <form className="admin-login-form" noValidate onSubmit={form.handleSubmit(onSubmit)}>
           <div className="form-field">
             <label htmlFor="admin-email">Email address</label>
             <input id="admin-email" type="email" autoComplete="username" inputMode="email" placeholder="admin@schooltrips.example" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "admin-email-error" : undefined} {...form.register("email")} />
@@ -52,7 +63,7 @@ export function AdminLoginForm() {
           <button className="button button-primary admin-login-submit" type="submit" disabled={isSubmitting} aria-disabled={isSubmitting}>
             {isSubmitting ? "Signing in…" : "Sign in"}
           </button>
-        </form>
+        </form>}
         <Link className="admin-login-back" href="/">Back to MB Learning</Link>
       </section>
     </main>

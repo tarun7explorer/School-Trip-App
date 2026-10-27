@@ -47,13 +47,15 @@ Do not configure Turnstile variables: Turnstile verification is not implemented.
 
 ## 4. Build, routes, metadata, and caching
 
-Vercel runs the Next.js App Router build. The public homepage and three canonical trip routes are `/`, `/trips/hyderabad-stem`, `/trips/jaipur-heritage`, and `/trips/delhi-discovery`. The interest form is `/interest`. Admin sign-in is `/admin/login`; the protected dashboard is `/admin`; its read-only data API is `/api/admin/enquiries`.
+Vercel runs the Next.js App Router build.
+
+The public homepage and three canonical trip routes are `/`, `/trips/hyderabad-stem`, `/trips/jaipur-heritage`, and `/trips/delhi-discovery`. The interest form is `/interest`. `/teacher/login` explains that teacher accounts are not enabled and links to the public interest flow. Admin sign-in is `/admin/login`; the protected dashboard is `/admin`; its read-only data API is `/api/admin/enquiries`.
 
 The site origin is validated during production build. Canonical links, sitemap URLs, robots sitemap URL, and Open Graph metadata derive from that origin. The sitemap includes only the homepage and trip details. `/interest` is noindex and excluded; admin and admin API paths are disallowed by `robots.txt` and the admin pages are noindex. Robots rules discourage crawling but do not provide authorization.
 
 Local images use `next/image`; Next/Vercel serves optimized AVIF/WebP variants. The configuration sets a 30-day minimum image optimization cache lifetime. Public static pages and images can use Next/Vercel defaults. Admin routes are dynamic and marked `private, no-store`; the admin API returns the same cache directive on success and every error response. Middleware also marks admin responses no-store. Do not add a CDN rule that overrides private admin cache headers.
 
-There are no custom redirects or rewrites in `next.config.ts`. Admin unauthenticated requests redirect to `/admin/login`; API requests return authorization status codes instead of exposing enquiry rows.
+There are no custom redirects or rewrites in `next.config.ts`. Admin unauthenticated requests redirect to `/admin/login`; API requests return authorization status codes instead of exposing enquiry rows. If Supabase URL or public credentials are missing, public city pages remain available, the interest page identifies the missing submission backend, and the admin login page disables sign-in with setup guidance. No local-only or browser-only storage is used for real enquiries.
 
 ## 5. Post-deploy smoke checks
 

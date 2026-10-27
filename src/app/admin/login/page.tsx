@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AdminLoginForm } from "@/components/admin/admin-login-form";
 import { getAdminAccess } from "@/lib/admin/auth";
+import { getBackendReadiness } from "@/lib/config/backend-readiness";
 
 export const metadata: Metadata = {
   title: "Administrator Sign In",
@@ -12,5 +13,6 @@ export const metadata: Metadata = {
 export default async function AdminLoginPage() {
   const access = await getAdminAccess();
   if (access.kind === "authorized") redirect("/admin");
-  return <AdminLoginForm />;
+  const { adminAuth } = getBackendReadiness();
+  return <AdminLoginForm authConfigured={adminAuth} accessUnavailable={access.kind === "unavailable"} />;
 }

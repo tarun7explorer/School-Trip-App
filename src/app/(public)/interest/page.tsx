@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { InterestForm } from "@/components/forms/interest-form";
 import { BackButton } from "@/components/layout/back-button";
 import { getTripBySlug } from "@/data/trips";
+import { getBackendReadiness } from "@/lib/config/backend-readiness";
 import { isTripSlug } from "@/types/trip";
 
 type InterestPageProps = { searchParams: Promise<{ trip?: string | string[] }> };
@@ -25,6 +26,7 @@ export default async function InterestPage({ searchParams }: InterestPageProps) 
   const { trip: queryTrip } = await searchParams;
   const tripSlug = typeof queryTrip === "string" && isTripSlug(queryTrip) ? queryTrip : undefined;
   const selectedTrip = tripSlug ? getTripBySlug(tripSlug) : undefined;
+  const { interestSubmission } = getBackendReadiness();
 
   return (
     <main id="main" className="interest-page" tabIndex={-1}>
@@ -35,6 +37,11 @@ export default async function InterestPage({ searchParams }: InterestPageProps) 
           <h1>Register your school&apos;s interest.</h1>
           <p>Tell us who to contact, which learning theme interests your school and approximately how many students may take part.</p>
         </header>
+        {!interestSubmission && (
+          <aside className="backend-config-note" role="status">
+            <strong>Registration is in preview mode.</strong> Saved enquiries are unavailable until the Supabase URL and server-only service role key are configured and the database setup is applied. No enquiry is confirmed until the form reports success.
+          </aside>
+        )}
         <InterestForm initialTripSlug={tripSlug} />
       </div>
     </main>

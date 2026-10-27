@@ -17,6 +17,7 @@ export function Navbar() {
           <Link href="/#about">About</Link>
         </nav>
         <div className="nav-actions">
+          <Link className="admin-nav-link" href="/teacher/login">Teacher Login</Link>
           <Link className="admin-nav-link" href="/admin/login">Admin Login</Link>
           <Link className="button button-primary nav-cta" href="/interest">Register Interest</Link>
         </div>
