@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, BookOpenCheck, Check, Compass, Lightbulb } from "lucide-react";
+import { BookOpenCheck, Check, Compass, Lightbulb } from "lucide-react";
+import { BackButton } from "@/components/layout/back-button";
 import { tripInterestHref } from "@/lib/routes";
 import type { Trip } from "@/types/trip";
 
@@ -8,9 +9,10 @@ export function TripDetail({ trip }: { trip: Trip }) {
   return (
     <main className="trip-detail-page" id="main" tabIndex={-1}>
       <div className="trip-detail-wrap">
+        <BackButton fallbackHref="/#trips" label="Back to all trips" />
         <nav className="breadcrumb-nav" aria-label="Breadcrumb">
           <ol>
-            <li><Link href="/#trips"><ArrowLeft size={14} aria-hidden="true" /> All trips</Link></li>
+            <li><Link href="/#trips">All trips</Link></li>
             <li aria-hidden="true"><span>/</span></li>
             <li aria-current="page">{trip.city}</li>
           </ol>
@@ -35,7 +37,7 @@ export function TripDetail({ trip }: { trip: Trip }) {
             <p className="trip-detail-summary">{trip.summary}</p>
             <p className="trip-detail-purpose">{trip.learningPurpose}</p>
             <Link className="button button-primary" href={tripInterestHref(trip.slug)}>
-              Register Interest <ArrowRight size={17} aria-hidden="true" />
+              Register Interest
             </Link>
             <p className="trip-cta-note">Select this trip to carry your destination choice into the interest flow.</p>
           </div>
@@ -93,7 +95,7 @@ export function TripDetail({ trip }: { trip: Trip }) {
         <section className="trip-bottom-cta" aria-labelledby="trip-cta-title">
           <div><p className="eyebrow eyebrow-light">FOR TEACHERS & SCHOOL COORDINATORS</p><h2 id="trip-cta-title">Could this theme fit your school?</h2><p>Continue with this destination selected, or return to compare the other trip themes.</p></div>
           <div className="trip-bottom-actions">
-            <Link className="button button-light" href={tripInterestHref(trip.slug)}>Register Interest <ArrowRight size={16} aria-hidden="true" /></Link>
+            <Link className="button button-light" href={tripInterestHref(trip.slug)}>Register Interest</Link>
             <Link className="trip-back-cta" href="/#trips">View all trips</Link>
           </div>
         </section>

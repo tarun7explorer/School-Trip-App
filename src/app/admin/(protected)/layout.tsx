@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, BookOpenCheck, LayoutDashboard, MapPin } from "lucide-react";
+import { BookOpenCheck, LayoutDashboard, MapPin } from "lucide-react";
 import { LogoutButton } from "@/components/admin/logout-button";
 import { requireAdmin } from "@/lib/admin/auth";
 import { trips } from "@/data/trips";
@@ -30,7 +30,7 @@ export default async function ProtectedAdminLayout({ children }: Readonly<{ chil
           <nav aria-label="Filter by destination">
             {trips.map((trip) => (
               <Link className="admin-sidebar-link" href={`/admin?trip=${trip.slug}`} key={trip.slug}>
-                <MapPin size={16} aria-hidden="true" /><span>{trip.city}</span><ArrowUpRight size={13} className="admin-sidebar-arrow" aria-hidden="true" />
+                <MapPin size={16} aria-hidden="true" /><span>{trip.city}</span>
               </Link>
             ))}
           </nav>

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
+import { CheckCircle2, LoaderCircle } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { submitTripInterest } from "@/lib/actions/interest-actions";
@@ -59,7 +59,7 @@ export function InterestForm({ initialTripSlug }: InterestFormProps) {
         <p className="eyebrow">ENQUIRY RECEIVED</p>
         <h1 id="interest-success-title">Thank you for sharing your interest.</h1>
         <p>Your school&apos;s interest in {selectedTrip?.city} — {selectedTrip?.theme} has been recorded. If email confirmation is configured, an acknowledgement will be sent to the email address provided.</p>
-        <Link className="button button-primary" href="/#trips">Explore other trips <ArrowRight size={16} aria-hidden="true" /></Link>
+        <Link className="button button-primary" href="/#trips">Explore other trips</Link>
       </section>
     );
   }
@@ -118,10 +118,9 @@ export function InterestForm({ initialTripSlug }: InterestFormProps) {
       {form.formState.isSubmitting && <p className="form-pending" role="status" aria-live="polite"><LoaderCircle size={16} className="pending-spinner" aria-hidden="true" /> Saving your school&apos;s interest…</p>}
 
       <div className="form-submit-row">
-        <Link className="form-back-link" href="/#trips"><ArrowLeft size={15} aria-hidden="true" /> Explore trip themes</Link>
+        <Link className="form-back-link" href="/#trips">Explore trip themes</Link>
         <button className="button button-primary form-submit" type="submit" disabled={form.formState.isSubmitting} aria-disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? "Submitting…" : "Submit interest"}
-          {!form.formState.isSubmitting && <ArrowRight size={16} aria-hidden="true" />}
         </button>
       </div>
     </form>

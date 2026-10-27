@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowRight, ClipboardList, Compass, MessageCircleMore } from "lucide-react";
+import { ArrowDownRight, ClipboardList, Compass, MessageCircleMore } from "lucide-react";
 
 const steps = [
   {
@@ -38,7 +38,7 @@ export function HowItWorks() {
           </article>
         ))}
       </div>
-      <a href="#trips" className="text-link how-link">Explore the trip themes <ArrowRight size={16} aria-hidden="true" /></a>
+      <a href="#trips" className="text-link how-link">Explore the trip themes</a>
     </section>
   );
 }

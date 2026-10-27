@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, LoaderCircle, LockKeyhole } from "lucide-react";
+import { LoaderCircle, LockKeyhole } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signInAdmin } from "@/lib/actions/admin-auth-actions";
@@ -53,7 +53,7 @@ export function AdminLoginForm() {
             {isSubmitting ? "Signing in…" : "Sign in"}
           </button>
         </form>
-        <Link className="admin-login-back" href="/"><ArrowLeft size={14} aria-hidden="true" /> Back to MB Learning</Link>
+        <Link className="admin-login-back" href="/">Back to MB Learning</Link>
       </section>
     </main>
   );

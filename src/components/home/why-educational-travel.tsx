@@ -1,4 +1,4 @@
-import { ArrowUpRight, BookOpen, Eye, Lightbulb } from "lucide-react";
+import { BookOpen, Eye, Lightbulb } from "lucide-react";
 
 const benefits = [
   {
@@ -33,7 +33,6 @@ export function WhyEducationalTravel() {
             <article className="benefit-row" key={title}>
               <span className="benefit-icon"><Icon size={20} strokeWidth={1.6} aria-hidden="true" /></span>
               <div><span className="benefit-number">0{index + 1}</span><h3>{title}</h3><p>{description}</p></div>
-              <ArrowUpRight className="benefit-arrow" size={17} aria-hidden="true" />
             </article>
           ))}
         </div>

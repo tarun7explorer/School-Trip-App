@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { InterestForm } from "@/components/forms/interest-form";
+import { BackButton } from "@/components/layout/back-button";
 import { getTripBySlug } from "@/data/trips";
 import { isTripSlug } from "@/types/trip";
 
@@ -30,7 +29,7 @@ export default async function InterestPage({ searchParams }: InterestPageProps) 
   return (
     <main id="main" className="interest-page" tabIndex={-1}>
       <div className="interest-page-wrap">
-        <Link href={selectedTrip ? `/trips/${selectedTrip.slug}` : "/#trips"} className="back-link"><ArrowLeft size={15} aria-hidden="true" /> {selectedTrip ? `Back to ${selectedTrip.city}` : "All trip themes"}</Link>
+        <BackButton fallbackHref={selectedTrip ? `/trips/${selectedTrip.slug}` : "/#trips"} label={selectedTrip ? `Back to ${selectedTrip.city}` : "Back to all trips"} />
         <header className="interest-page-heading">
           <p className="eyebrow">FOR TEACHERS & SCHOOL COORDINATORS</p>
           <h1>Register your school&apos;s interest.</h1>

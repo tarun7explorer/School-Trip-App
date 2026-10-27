@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import { trips } from "@/data/trips";
 import { TripCard } from "@/components/trips/trip-card";
 
@@ -13,7 +12,7 @@ export function TripSection() {
         {trips.map((trip, index) => <TripCard key={trip.slug} trip={trip} index={index} />)}
       </div>
       <p className="illustrative-note">Trip themes are illustrative. Programme details will be confirmed by MB Learning.</p>
-      <a className="section-jump" href="#how-it-works">See how it works <ArrowRight size={15} aria-hidden="true" /></a>
+      <a className="section-jump" href="#how-it-works">See how it works</a>
     </section>
   );
 }

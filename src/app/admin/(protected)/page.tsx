@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, RotateCcw, Search, UsersRound } from "lucide-react";
+import { RotateCcw, Search, UsersRound } from "lucide-react";
 import {
   buildDashboardHref,
   getAdminDashboardData,
@@ -94,7 +94,6 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
               <span className="admin-destination-copy"><strong>{summary.city}</strong><small>{summary.theme}</small></span>
               <span className="admin-destination-values"><strong>{numberFormat.format(summary.enquiryCount)}</strong><small>enquiries</small></span>
               <span className="admin-destination-values admin-student-values"><strong>{numberFormat.format(summary.studentCount)}</strong><small>students</small></span>
-              <ArrowRight className="admin-destination-arrow" size={15} aria-hidden="true" />
             </Link>
           ))}
         </div>
@@ -140,7 +139,7 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
               <span className="admin-empty-icon" aria-hidden="true"><Search size={20} /></span>
               <h3>{hasActiveFilters ? "No enquiries match these filters" : "No enquiries yet"}</h3>
               <p>{hasActiveFilters ? "Try a different search or destination, or clear the active filters." : "New school trip interest submissions will appear here when they are saved."}</p>
-              {hasActiveFilters && <Link className="admin-reset-empty" href="/admin">Clear filters <ArrowRight size={14} aria-hidden="true" /></Link>}
+              {hasActiveFilters && <Link className="admin-reset-empty" href="/admin">Clear filters</Link>}
             </div>
           ) : (
             <>
@@ -168,9 +167,9 @@ export default async function AdminDashboardPage({ searchParams }: AdminDashboar
               <nav className="admin-pagination" aria-label="Enquiry pages">
                 <span>Showing <strong>{numberFormat.format(rangeStart)}–{numberFormat.format(rangeEnd)}</strong> of {numberFormat.format(data.filteredCount)}</span>
                 <div>
-                  {filters.page > 1 ? <Link href={buildDashboardHref(filters, filters.page - 1)} aria-label="Previous page"><ArrowLeft size={15} aria-hidden="true" /> Previous</Link> : <span className="admin-page-disabled" aria-disabled="true"><ArrowLeft size={15} aria-hidden="true" /> Previous</span>}
+                  {filters.page > 1 ? <Link href={buildDashboardHref(filters, filters.page - 1)} aria-label="Previous page">Previous</Link> : <span className="admin-page-disabled" aria-disabled="true">Previous</span>}
                   <span className="admin-page-number">Page {filters.page} of {data.pageCount}</span>
-                  {filters.page < data.pageCount ? <Link href={buildDashboardHref(filters, filters.page + 1)} aria-label="Next page">Next <ArrowRight size={15} aria-hidden="true" /></Link> : <span className="admin-page-disabled" aria-disabled="true">Next <ArrowRight size={15} aria-hidden="true" /></span>}
+                  {filters.page < data.pageCount ? <Link href={buildDashboardHref(filters, filters.page + 1)} aria-label="Next page">Next</Link> : <span className="admin-page-disabled" aria-disabled="true">Next</span>}
                 </div>
               </nav>
             </>

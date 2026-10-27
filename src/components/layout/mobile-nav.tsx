@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const links = [
   { href: "/#trips", label: "Trips" },
+  { href: "/#trips", label: "Student Explore" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#about", label: "About" },
 ];
@@ -76,9 +77,8 @@ export function MobileNav() {
               {links.map((link) => (
                 <Link href={link.href} key={link.href} onClick={() => setOpen(false)}>{link.label}</Link>
               ))}
-              <Link className="mobile-register" href="/interest" onClick={() => setOpen(false)}>
-                Register Interest <ArrowRight size={17} aria-hidden="true" />
-              </Link>
+              <Link href="/admin/login" onClick={() => setOpen(false)}>Admin Login</Link>
+              <Link className="mobile-register" href="/interest" onClick={() => setOpen(false)}>Register Interest</Link>
             </nav>
           </div>
         </>

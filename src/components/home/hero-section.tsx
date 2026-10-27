@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, Compass } from "lucide-react";
+import { Compass } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -11,8 +11,8 @@ export function HeroSection() {
           <h1 id="hero-title">Learning Beyond<br />the <em>Classroom</em></h1>
           <p className="hero-description">Bring classroom ideas into the world. Explore learning themes in Hyderabad, Jaipur and Delhi, and find a starting point for your school&apos;s next experience.</p>
           <div className="hero-actions">
-            <Link className="button button-primary" href="#trips">Explore Trips <ArrowRight size={17} aria-hidden="true" /></Link>
-            <a className="quiet-link" href="#how-it-works">How it works <ArrowDown size={15} aria-hidden="true" /></a>
+            <Link className="button button-primary" href="#trips">Explore Trips</Link>
+            <a className="quiet-link" href="#how-it-works">How it works</a>
           </div>
           <div className="hero-note"><Compass size={16} aria-hidden="true" /><span>Three destinations, three ways to discover.</span></div>
         </div>

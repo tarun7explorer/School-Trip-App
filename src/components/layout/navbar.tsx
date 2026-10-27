@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpenCheck } from "lucide-react";
+import { BookOpenCheck } from "lucide-react";
 import { MobileNav } from "@/components/layout/mobile-nav";
 
 export function Navbar() {
@@ -12,12 +12,14 @@ export function Navbar() {
         </Link>
         <nav className="nav-links" aria-label="Primary navigation">
           <Link href="/#trips">Trips</Link>
+          <Link href="/#trips">Student Explore</Link>
           <Link href="/#how-it-works">How It Works</Link>
           <Link href="/#about">About</Link>
         </nav>
-        <Link className="button button-primary nav-cta" href="/interest">
-          Register Interest <ArrowRight size={16} aria-hidden="true" />
-        </Link>
+        <div className="nav-actions">
+          <Link className="admin-nav-link" href="/admin/login">Admin Login</Link>
+          <Link className="button button-primary nav-cta" href="/interest">Register Interest</Link>
+        </div>
         <MobileNav />
       </div>
     </header>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, BookOpenCheck } from "lucide-react";
+import { BookOpenCheck } from "lucide-react";
 
 export function Footer() {
   return (
@@ -20,8 +20,8 @@ export function Footer() {
         </div>
         <div className="footer-links-group footer-next">
           <span className="footer-heading">GET STARTED</span>
-          <Link href="/interest">Register school interest <ArrowUpRight size={14} aria-hidden="true" /></Link>
-          <Link href="/#trips">Explore destinations <ArrowUpRight size={14} aria-hidden="true" /></Link>
+          <Link href="/interest">Register school interest</Link>
+          <Link href="/#trips">Explore destinations</Link>
         </div>
       </div>
       <div className="footer-bottom"><span>MB Learning · School Trip Interest Platform</span><Link href="#main">Back to top ↑</Link></div>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import type { Trip } from "@/types/trip";
 
@@ -19,7 +18,7 @@ export function TripCard({ trip, index }: { trip: Trip; index: number }) {
         <p className="trip-summary">{trip.summary}</p>
         <div className="learning-outcome"><span>LEARNING FOCUS</span><p>{trip.learningPurpose}</p></div>
         <Link className="text-link" href={`/trips/${trip.slug}`}>
-          Explore trip <ArrowUpRight size={16} aria-hidden="true" />
+          Explore trip
         </Link>
       </div>
     </Card>
