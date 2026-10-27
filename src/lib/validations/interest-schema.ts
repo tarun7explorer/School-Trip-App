@@ -5,7 +5,7 @@ export const MAX_STUDENT_COUNT = 300;
 
 const tripSlugSchema = z
   .union([z.enum(tripSlugs), z.literal("")])
-  .pipe(z.enum(tripSlugs, { errorMap: () => ({ message: "Choose a destination." }) }));
+  .pipe(z.enum(tripSlugs, { error: "Choose a destination." }));
 
 export const interestSchema = z.object({
   teacherName: z.string().trim().min(2, "Enter the teacher's full name.").max(120, "Use 120 characters or fewer."),
@@ -17,7 +17,7 @@ export const interestSchema = z.object({
     .regex(/^\+?[0-9][0-9 ().-]{5,22}[0-9]$/, "Enter a valid phone number, including country code if needed."),
   tripSlug: tripSlugSchema,
   studentCount: z
-    .number({ invalid_type_error: "Enter the number of interested students." })
+    .number({ error: "Enter the number of interested students." })
     .int("Enter a whole number of students.")
     .min(1, "At least one student is required.")
     .max(MAX_STUDENT_COUNT, `Enter no more than ${MAX_STUDENT_COUNT} students.`),

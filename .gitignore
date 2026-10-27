@@ -8,6 +8,8 @@ coverage/
 playwright-report/
 test-results/
 playwright/.cache/
+supabase/.temp/
+supabase/.branches/
 
 .env
 .env.*

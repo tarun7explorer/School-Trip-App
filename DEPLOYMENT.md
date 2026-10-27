@@ -9,8 +9,8 @@ Use separate Supabase projects for Production and Preview/Staging. Do not point 
 For each project:
 
 1. Confirm the project reference in the Supabase Dashboard before applying migrations.
-2. Apply all four files in `supabase/migrations/` in filename order. With the Supabase CLI, link to the intended project and run `npx supabase db push`. Review the pending migration list and project reference before confirming the command. Alternatively, run the migration SQL in the Supabase SQL Editor in order.
-3. Apply `supabase/seed.sql` to create the three public trip catalogue rows. Verify all three slugs exist.
+2. Apply all four files in `supabase/migrations/` in filename order. With the Supabase CLI, authenticate and link to the intended project, inspect migration history, then preview with `npx supabase db push --dry-run --linked`. Only after reviewing the project reference and preview should the operator run `npx supabase db push --linked`. Alternatively, run each migration in the Supabase SQL Editor in order. Never run `db reset --linked` against Production.
+3. Review and run `supabase/seed.sql` to create/update the three public trip catalogue rows. Its `ON CONFLICT DO UPDATE` clause changes the catalogue text for matching slugs. Verify all three slugs exist. It creates no admin account and no enquiry records.
 4. In Supabase Auth, enable Email/password sign-in and disable public sign-ups. Configure the production Site URL and approved redirect URLs for the production domain. Use the Preview domain only in the isolated Preview project.
 5. Provision only approved admin identities in `public.admin_users` using the documented operator-only SQL in `README.md`. Confirm an ordinary authenticated account has no allowlist row.
 6. Review `admin_users`, `trip_interests`, and the three dashboard RPCs in the Supabase policy/function dashboards. The migrations enable RLS, restrict table writes, and declare dashboard functions `SECURITY INVOKER`; do not replace them with service-role reads or security-definer functions.
@@ -35,7 +35,7 @@ Set these in **Project → Settings → Environment Variables**. Use the exact v
 | `NEXT_PUBLIC_SITE_URL` | Required; verified custom HTTPS domain | Optional; if omitted, the deployment's Vercel URL is used | Public, consumed while building canonical and social metadata. Scope a production domain value to Production only. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Production Supabase project URL | Isolated Preview/Staging project URL | Public project endpoint. |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Production publishable key | Preview/Staging publishable key | Browser-safe; RLS remains the access boundary. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Production service-role key | Preview/Staging service-role key, only if testing actual submissions | Secret. Server-side only. Never share the Production value with Preview. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Production Secret key (`sb_secret_...`) | Preview/Staging Secret key, only if testing actual submissions | Secret. Server-side only. A legacy `service_role` key is accepted by the current code. Never share the Production value with Preview. |
 | `UPSTASH_REDIS_REST_URL` | Optional Production Redis endpoint | Separate Preview endpoint or unset | Server-side rate limiting. |
 | `UPSTASH_REDIS_REST_TOKEN` | Optional Production token | Separate Preview token or unset | Secret; if configured but unavailable, the limiter fails closed. |
 | `RESEND_API_KEY` | Optional Production key | Omit or use an isolated/test provider | Secret. Omit to disable confirmation email. |

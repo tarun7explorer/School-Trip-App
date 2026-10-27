@@ -119,7 +119,7 @@ npm run build
 | `NEXT_PUBLIC_SITE_URL` | Production canonical metadata, sitemap, and robots | Yes | Production requires a valid HTTPS origin. Preview may omit it and uses Vercel's per-deployment URL. Local development defaults to `http://localhost:3000`. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase Auth and data access | Yes | Project URL for the matching environment. |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase Auth and browser client | Yes | Publishable key; RLS is the data security boundary. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-side public enquiry insert | **No** | Privileged secret; only referenced by the `server-only` Supabase admin client. Never use a `NEXT_PUBLIC_` prefix. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-side public enquiry insert | **No** | Put Supabase's elevated `sb_secret_...` API key here (preferred); a legacy `service_role` key also works. Only used by the server-only client. Never use a `NEXT_PUBLIC_` prefix. |
 | `UPSTASH_REDIS_REST_URL` | Optional shared rate limiting | No | Configure together with the token. A partially configured or unavailable Upstash service fails closed. |
 | `UPSTASH_REDIS_REST_TOKEN` | Optional shared rate limiting | **No** | Secret credential for Upstash. |
 | `RESEND_API_KEY` | Optional confirmation email | **No** | Omit to disable confirmation mail. |
@@ -133,28 +133,24 @@ The repository `.gitignore` excludes `.env` and `.env.*`, with `.env.example` as
 
 Use separate Supabase projects for Production and Preview/Staging. Do not use Production data or credentials for Preview testing.
 
-1. Create the intended project and copy its project reference, URL, publishable key, and server-side service-role key into that environment's secret manager.
+1. In the Supabase Dashboard, get the Project URL from **Connect** or **Settings â†’ API Keys**; copy the **Publishable key** for `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and the elevated **Secret key** for `SUPABASE_SERVICE_ROLE_KEY`. The latter stays server-only. The current code also accepts the legacy `service_role` key in that variable. Get the Project Reference ID from **Project Settings â†’ General** for the CLI link.
 2. Install and authenticate the Supabase CLI if using the CLI. Confirm the target project reference before applying anything:
 
    ```bash
    npx supabase login
    npx supabase link --project-ref YOUR_INTENDED_PROJECT_REF
-   npx supabase migration list
-   npx supabase db push
+   npx supabase migration list --linked
+   npx supabase db push --dry-run --linked
    ```
 
-   The migration files are applied in order. Alternatively, review and run each SQL migration in the Supabase SQL Editor. Do not apply them to an unintended project.
-3. Seed the destination catalogue:
+   These commands authenticate the CLI, link this checkout to the named project, compare local and remote migration history, and preview pending migrations without applying them. Review the reference and dry-run output. Applying schema and RLS changes is a separate step; only after you approve it, run `npx supabase db push --linked`. Migrations run in filename order. Do not use `db reset --linked`.
+3. After the migrations are applied, review and run `supabase/seed.sql` in that project's SQL Editor to seed the destination catalogue:
 
-   ```bash
-   npx supabase db query --file supabase/seed.sql
-   ```
-
-   Or run `supabase/seed.sql` in that project's SQL Editor. Verify all three trip slugs exist before trying registration.
+   It only inserts the three illustrative `trips` rows, but uses `ON CONFLICT DO UPDATE` for those slugs, so it updates their city/theme/learning-purpose text if rows already exist. Verify all three trip slugs exist before trying registration. This seed does not create an administrator or insert enquiry data.
 4. In Supabase Auth, enable Email/password sign-in and disable public sign-ups. Set the Site URL and allowed redirect URLs for that environment.
 5. Verify RLS and table privileges for `trip_interests` and `admin_users`, and the invoker-security configuration for the dashboard RPCs. Anonymous users must not read enquiries; ordinary authenticated users must not read them or modify the admin allowlist.
 
-The migrations define the `trips`, `admin_users`, and `trip_interests` tables, validation constraints and indexes; they enable RLS, restrict enquiry table writes, and add protected summary/count/page RPCs. The public server action inserts using the server-only service-role client. Admin reads use the authenticated SSR client and are independently authorized by the server helper and RLS.
+The migrations define the `trips`, `admin_users`, and `trip_interests` tables, validation constraints and indexes; they enable RLS, restrict enquiry table writes, and add protected summary/count/page RPCs. The public server action inserts using the server-only elevated secret client. Admin reads use the authenticated SSR client and are independently authorized by the server helper and RLS.
 
 ## Secure administrator provisioning
 
