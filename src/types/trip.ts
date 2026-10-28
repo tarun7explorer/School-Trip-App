@@ -44,4 +44,6 @@ export type TripPlace = {
   category: string;
   description: string;
   learningLink: string;
+  image: string;
+  imageAlt: string;
 };

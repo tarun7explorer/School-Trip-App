@@ -77,13 +77,13 @@ export function TripDetail({ trip }: { trip: Trip }) {
               <article className="place-card" key={place.name}>
                 <div className={`place-image-wrap place-image-${index + 1}`}>
                   <Image
-                    src={trip.image}
-                    alt={`Illustrative ${trip.city} learning scene; this image may not depict ${place.name}.`}
+                    src={place.image}
+                    alt={place.imageAlt}
                     fill
                     sizes="(max-width: 700px) 100vw, (max-width: 1050px) 50vw, 33vw"
                     className="place-image"
                   />
-                  <span className="place-image-label">ILLUSTRATIVE IMAGE</span>
+                  <span className="place-image-label">LOCATION PHOTOGRAPH</span>
                 </div>
                 <div className="place-card-content">
                   <div className="place-card-meta"><span><MapPin size={13} aria-hidden="true" />{trip.city}</span><span>{place.category}</span></div>
