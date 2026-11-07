@@ -9,7 +9,6 @@ Trip descriptions and imagery are illustrative. The application does not adverti
 ## Project status
 
 - GitHub repository: [tarun7explorer/School-Trip-App](https://github.com/tarun7explorer/School-Trip-App)
-- Production deployment: **not deployed or verified**; no deployed URL is available.
 - Supabase production schema and RLS: **must be applied and verified manually** in the intended project before live collection or administrator access.
 - Screenshots: no reviewed screenshots are checked in. Future screenshots belong in [`docs/screenshots/`](docs/screenshots/).
 
@@ -210,9 +209,6 @@ In summary: import this GitHub repository into Vercel, use the repository root a
 - A honeypot is present. Turnstile/CAPTCHA, idempotency keys, enquiry editing/deletion/status changes, CSV export, admin email alerts, and verified itinerary content are not implemented.
 - Confirmation email via Resend is optional. A failed email does not undo a saved enquiry. No production migration application, live Supabase authorization test, or Vercel deployment is claimed in this repository documentation.
 
-## Screenshots
-
-No reviewed screenshots are currently checked in. The documented location is `docs/screenshots/`; only use non-sensitive pages or synthetic local test data. Playwright artifacts under `test-results/` are generated/ignored and are not committed.
 
 ## AI-tool disclosure
 
